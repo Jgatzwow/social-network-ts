@@ -1,13 +1,15 @@
-import React from "react";
+import React from 'react';
+import styles from './Header.module.css'
+
+
 
 const Header = () => {
     return (
-        <div>
-            <h1> Hello, samurai! Let's go!</h1>
-            <a href="#">Home</a>
-            <a href="#">News Feed</a>
-            <a href="#">Messages</a>
-        </div>
+        <header className={styles.header}>
+            <a href="#">
+                <img src="https://cdn.logo.com/hotlink-ok/logo-social.png" alt="logo"/>
+            </a>
+        </header>
     )
 }
 
