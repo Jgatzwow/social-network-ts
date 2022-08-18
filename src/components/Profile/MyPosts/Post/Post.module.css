@@ -1,0 +1,14 @@
+.post {
+    display: flex;
+    align-items: center;
+    color:blue;
+    background: lightblue;
+}
+
+.post img {
+    margin-left: 20px;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    margin-right: 50px;
+}

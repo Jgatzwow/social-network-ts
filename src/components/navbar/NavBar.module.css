@@ -1,4 +1,25 @@
 .navbar {
-    background: yellow;
+    background: #424205;
     grid-area: navbar;
+}
+
+.item {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.navbar__list {
+    margin: 0;
+    list-style: none;
+}
+
+.navbar__link {
+    text-decoration: none;
+    color: white;
+}
+.navbar__link:active,
+.navbar__link:hover,
+.navbar__link:focus{
+    text-decoration: none;
+    color: gold;
 }

@@ -3,7 +3,15 @@
     grid-area: header;
 }
 
-.header img {
-    width: 100px;
-    height: 50px;
+.header__logo_wrapper {
+    padding-top: 5px;
+    margin-left: 20px;
 }
+
+.header img {
+    display: block;
+    border-radius: 30px;
+    width: 50px;
+    height: 35px;
+}
+
