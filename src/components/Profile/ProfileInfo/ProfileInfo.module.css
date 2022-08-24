@@ -1,0 +1,23 @@
+.profile__bg {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.profile__bg img {
+    margin: 0;
+    width: 100%;
+    height: 35vh;
+}
+
+.ava__description_wrapper {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 40px;
+
+
+}
+
+.profile__pic img{
+    max-height: 300px;
+    max-width: 300px;
+    margin-right: 40px;
+}
