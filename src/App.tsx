@@ -5,18 +5,27 @@ import NavBar from './components/navbar/NavBar';
 import Footer from './components/footer/Footer';
 import {Profile} from './components/Profile/Profile';
 import Dialogs from './components/Dialogs/Dialogs';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {StateType} from './redux/State';
+
+type PropsType = {
+    appState: StateType
+}
 
 
-const App = () => {
+const App = (props: PropsType) => {
+    const {appState} = props
+    console.log()
     return (
         <BrowserRouter>
             <div className="app__wrapper">
                 <Header/>
                 <NavBar/>
                 <div className="content">
-                    <Route path={'/Profile'} component ={Profile}/>
-                    <Route path={'/Dialogs'} component ={Dialogs}/>
+                    <Routes>
+                        <Route path={'/Profile'} element={<Profile initialPostsState={appState.profilePage.initialPostsState}/>}/>
+                        <Route path={'/Dialogs'} element={<Dialogs dialogsPage={appState.dialogsPage} />}/>
+                    </Routes>
                 </div>
                 <Footer/>
             </div>

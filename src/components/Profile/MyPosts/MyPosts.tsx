@@ -1,28 +1,21 @@
 import React, {ChangeEvent, useState} from 'react';
 import {Post} from './Post/Post';
 import styles from './MyPosts.module.css'
+import {v1} from 'uuid';
+import {PostsDataType} from '../../../redux/State';
 
-type InitialStateType = Array<MessagesType>
-type MessagesType = {
-    id: number
-    post: string
-    likes: number
+type PropsType = {
+    initialPostsState: Array<PostsDataType>
 }
 
-const initialState = [
-    {id: 1, post: 'hello', likes: 123},
-    {id: 2, post: 'sup', likes: 14123},
-    {id: 3, post: 'Bye', likes: 23},
-    {id: 4, post: 'Aloha', likes: 13},
-]
 
+export const MyPosts = (props: PropsType) => {
+    const {initialPostsState} = props
 
-export const MyPosts = () => {
-
-    const [messages, setMessages] = useState<InitialStateType>(initialState)
+    const [messages, setMessages] = useState<Array<PostsDataType>>(initialPostsState)
     const [onPostChange, setOnPostChange] = useState('')
     const onAddMessage = (value: string) => {
-        setMessages([{id: 5, post: value, likes: 0}, ...messages])
+        setMessages([{id: v1(), post: value, likes: 0}, ...messages])
     }
     const onAddMessageHandler = () => {
         onAddMessage(onPostChange)
