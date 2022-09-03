@@ -1,6 +1,9 @@
 .navbar {
     background: #424205;
     grid-area: navbar;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .item {

@@ -19,10 +19,32 @@
     color: gold;
 }
 
-.messages {
+.dialog {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
 
+.dialog img {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+}
+
+.message__item {
+    display: flex;
+    gap: 10px;
 }
 
 .message {
+    display: flex;
+    justify-content: space-between;
+}
 
+.message img {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
 }

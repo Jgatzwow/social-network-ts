@@ -8,8 +8,14 @@ export type StateType = {
         dialogsData: Array<DialogsDataType>
         messagesData: Array<MessagesDataType>
     }
+    sideBar: Array<FriendsType>
 
 
+}
+export type FriendsType = {
+    id: string
+    friendsName: string
+    friendsAva: string
 }
 export type PostsDataType = {
     id: string
@@ -46,7 +52,21 @@ export const state: StateType = {
             {id: v1(), message: 'sup'},
             {id: v1(), message: 'Hi-ho'},
         ]
-    }
+    },
+    sideBar: [
+        {
+            id: v1(), friendsName: 'Michael',
+            friendsAva: 'https://www.slashfilm.com/img/gallery/avatars-mocap-tech-caused-some-literal-headaches-for-the-cast/l-intro-1658883843.jpg'
+        },
+        {
+            id: v1(), friendsName: 'Genya',
+            friendsAva: 'https://www.slashfilm.com/img/gallery/avatars-mocap-tech-caused-some-literal-headaches-for-the-cast/l-intro-1658883843.jpg'
+        },
+        {
+            id: v1(), friendsName: 'Denis',
+            friendsAva: 'https://www.slashfilm.com/img/gallery/avatars-mocap-tech-caused-some-literal-headaches-for-the-cast/l-intro-1658883843.jpg'
+        }
+    ]
 }
 
 

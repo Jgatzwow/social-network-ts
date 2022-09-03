@@ -1,29 +1,35 @@
 import React from 'react';
 import styles from './NavBar.module.css'
 import {NavLink} from 'react-router-dom';
+import {SideBar} from './SideBar/SideBar';
+import {FriendsType} from '../../redux/State';
 
+type PropsType = {
+    sideBar: Array<FriendsType>
+}
 
-
-const NavBar = () => {
+const NavBar = (props: PropsType) => {
+    const {sideBar} = props
     return (
         <nav className={styles.navbar}>
             <ul className={styles.navbar__list}>
                 <li className={styles.item}>
-                    <NavLink className={styles.navbar__link} to='/Profile'> Profile</NavLink>
+                    <NavLink className={styles.navbar__link} to="/Profile"> Profile</NavLink>
                 </li>
                 <li className={styles.item}>
-                    <NavLink className={styles.navbar__link} to='/Dialogs'> Messages</NavLink>
+                    <NavLink className={styles.navbar__link} to="/Dialogs"> Messages</NavLink>
                 </li>
                 <li className={styles.item}>
-                    <NavLink className={styles.navbar__link} to='/Users'> Users</NavLink>
+                    <NavLink className={styles.navbar__link} to="/Users"> Users</NavLink>
                 </li>
                 <li className={styles.item}>
-                    <NavLink className={styles.navbar__link} to='/Music'> Music</NavLink>
+                    <NavLink className={styles.navbar__link} to="/Music"> Music</NavLink>
                 </li>
                 <li className={styles.item}>
-                    <NavLink className={styles.navbar__link} to='/Settings'> Settings</NavLink>
+                    <NavLink className={styles.navbar__link} to="/Settings"> Settings</NavLink>
                 </li>
             </ul>
+            <SideBar friendsData={sideBar}/>
         </nav>
     )
 }

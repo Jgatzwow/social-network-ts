@@ -26,7 +26,6 @@ const Dialogs = (props: PropsType) => {
             <div className={styles.messages}>
                 {dialogsPage.messagesData.map(m => {
                     return <Messages key={m.id} message={m.message}/>
-
                 })}
 
 
