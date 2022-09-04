@@ -3,6 +3,7 @@ import {v1} from 'uuid';
 export type StateType = {
     profilePage: {
         initialPostsState: Array<PostsDataType>
+        postMessage: string
     }
     dialogsPage: {
         dialogsData: Array<DialogsDataType>
@@ -37,7 +38,8 @@ export const state: StateType = {
             {id: v1(), post: 'sup', likes: 14123},
             {id: v1(), post: 'Bye', likes: 23},
             {id: v1(), post: 'Aloha', likes: 13},
-        ]
+        ],
+        postMessage: 'samurai'
     },
     dialogsPage: {
         dialogsData: [
@@ -69,5 +71,10 @@ export const state: StateType = {
     ]
 }
 
+export const onAddPost = (postMessage: string) => {
+    let newPost = {id: v1(), post: postMessage, likes: 0}
+    state.profilePage.initialPostsState.push(newPost)
+
+}
 
 

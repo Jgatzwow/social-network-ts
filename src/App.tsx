@@ -6,7 +6,7 @@ import Footer from './components/footer/Footer';
 import {Profile} from './components/Profile/Profile';
 import Dialogs from './components/Dialogs/Dialogs';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {StateType} from './redux/State';
+import {onAddPost, StateType} from './redux/State';
 
 type PropsType = {
     appState: StateType
@@ -24,7 +24,9 @@ const App = (props: PropsType) => {
                 <div className="content">
                     <Routes>
                         <Route path={'/Profile'}
-                               element={<Profile initialPostsState={appState.profilePage.initialPostsState}/>}/>
+                               element={<Profile initialPostsState={appState.profilePage.initialPostsState}
+                                                 postMessage={appState.profilePage.postMessage}
+                               onAddPost={onAddPost}/>}/>
                         <Route path={'/Dialogs'}
                                element={<Dialogs dialogsPage={appState.dialogsPage}/>}/>
                     </Routes>
