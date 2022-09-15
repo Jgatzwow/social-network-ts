@@ -2,7 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {state} from './redux/State';
+import {store} from './redux/State';
 
 
-ReactDOM.render(<App appState={state} />, document.getElementById('root'));
+
+const rerenderEntireTree = () => {
+    ReactDOM.render(<App appState={store.getState()} store={store} />, document.getElementById('root'));
+}
+
+rerenderEntireTree()
+
+store.subscribe(rerenderEntireTree)

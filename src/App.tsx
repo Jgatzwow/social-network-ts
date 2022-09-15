@@ -6,16 +6,17 @@ import Footer from './components/footer/Footer';
 import {Profile} from './components/Profile/Profile';
 import Dialogs from './components/Dialogs/Dialogs';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {onAddPost, StateType} from './redux/State';
+import {StateType, StoreType} from './redux/State';
+
 
 type PropsType = {
     appState: StateType
+    store: StoreType
 }
 
 
 const App = (props: PropsType) => {
-    const {appState} = props
-    console.log()
+    const {appState,store} = props
     return (
         <BrowserRouter>
             <div className="app__wrapper">
@@ -26,9 +27,11 @@ const App = (props: PropsType) => {
                         <Route path={'/Profile'}
                                element={<Profile initialPostsState={appState.profilePage.initialPostsState}
                                                  postMessage={appState.profilePage.postMessage}
-                               onAddPost={onAddPost}/>}/>
+                                                 dispatch={store.dispatch.bind(store)}
+                               />}/>
                         <Route path={'/Dialogs'}
-                               element={<Dialogs dialogsPage={appState.dialogsPage}/>}/>
+                               element={<Dialogs dialogsPage={appState.dialogsPage}
+                                                 dispatch={store.dispatch.bind(store)}/>}/>
                     </Routes>
                 </div>
                 <Footer/>
