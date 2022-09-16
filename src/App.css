@@ -13,3 +13,12 @@
 .content {
     grid-area: content;
 }
+
+.act {
+    color: orange;
+}
+
+.def {
+    color: black;
+}
+

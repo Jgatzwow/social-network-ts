@@ -85,7 +85,7 @@ export const store: StoreType = {
                 {id: v1(), message: 'sup'},
                 {id: v1(), message: 'Hi-ho'},
             ],
-            dialogsMessage: 'samurai'
+            dialogsMessage: ''
         },
         sideBar: [
             {

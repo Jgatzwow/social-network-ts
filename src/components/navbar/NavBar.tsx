@@ -17,7 +17,7 @@ const NavBar = (props: PropsType) => {
                     <NavLink className={styles.navbar__link} to="/Profile"> Profile</NavLink>
                 </li>
                 <li className={styles.item}>
-                    <NavLink className={styles.navbar__link} to="/Dialogs"> Messages</NavLink>
+                    <NavLink to="/Dialogs" className={styles.navbar__link}> Messages</NavLink>
                 </li>
                 <li className={styles.item}>
                     <NavLink className={styles.navbar__link} to="/Users"> Users</NavLink>

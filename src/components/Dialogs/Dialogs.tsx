@@ -3,6 +3,7 @@ import styles from './Dialogs.module.css'
 import {Dialog} from './Dialog/Dialog';
 import {Messages} from './messages/Messages';
 import {ActionsType, DialogsDataType, MessagesDataType} from '../../redux/State';
+import {Outlet} from 'react-router-dom';
 
 type PropsType = {
     dialogsPage: {
@@ -45,6 +46,7 @@ const Dialogs = (props: PropsType) => {
                 <input onChange={onNewMessageInputChangeHandler} ref={dialogsInputRef} value={dialogsPage.dialogsMessage}/>
                 <button  onClick={onAddMessageHandler}>Add Message</button>
             </div>
+            <Outlet/>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../Dialogs.module.css';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useParams} from 'react-router-dom';
 
 type PropsType = {
     name: string
@@ -9,13 +9,16 @@ type PropsType = {
 
 
 export const Dialog = (props: PropsType) => {
+    const params = useParams<'id'>()
+    const some = params
+    console.log(some)
     const {id, name} = props
     return (
         <div className={styles.dialog}>
             <img
                 src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
                 alt=""/>
-            <NavLink to={'/Dialogs/Michael'} className={styles.dialogs__link}>{name}</NavLink>
+            <NavLink to={'/Dialogs/' + id} className={styles.dialogs__link}>{name}</NavLink>
         </div>
     )
 }
