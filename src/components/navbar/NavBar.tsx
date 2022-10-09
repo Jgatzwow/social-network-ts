@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./NavBar.module.css";
 import { NavLink } from "react-router-dom";
 import { SideBar } from "./SideBar/SideBar";
-import { FriendsType } from "../../redux/store";
+import { FriendsType } from "../../redux/ReduxStore";
 
 type PropsType = {
   sideBar: Array<FriendsType>;
@@ -44,7 +44,7 @@ const NavBar = (props: PropsType) => {
           </NavLink>
         </li>
       </ul>
-      <SideBar friendsData={sideBar} />
+      {/*<SideBar friendsData={sideBar} />*/}
     </nav>
   );
 };

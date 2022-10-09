@@ -2,16 +2,9 @@ import React, { useRef } from "react";
 import styles from "./Dialogs.module.css";
 import { Dialog } from "./Dialog/Dialog";
 import { Messages } from "./messages/Messages";
-import {
-  ActionsType,
-  DialogsDataType,
-  MessagesDataType,
-} from "../../redux/store";
+
 import { Outlet } from "react-router-dom";
-import {
-  addMessageAC,
-  updateNewMessageInputAC,
-} from "../../redux/DialogsPageReducer";
+import { DialogsDataType, MessagesDataType } from "../../redux/ReduxStore";
 
 type PropsType = {
   dialogsPage: {
@@ -19,19 +12,20 @@ type PropsType = {
     messagesData: Array<MessagesDataType>;
     dialogsMessage: string;
   };
-  dispatch: (action: ActionsType) => void;
+  onNewMessageInputChange: (newText: string) => void;
+  onAddMessage: () => void;
 };
 const Dialogs = (props: PropsType) => {
-  const { dialogsPage, dispatch } = props;
+  const { dialogsPage, onNewMessageInputChange, onAddMessage } = props;
 
   const dialogsInputRef = useRef<HTMLInputElement>(null);
 
   const onAddMessageHandler = () => {
-    dispatch(addMessageAC());
+    onAddMessage();
   };
   const onNewMessageInputChangeHandler = () => {
     let newText = dialogsInputRef.current ? dialogsInputRef.current.value : "";
-    dispatch(updateNewMessageInputAC(newText));
+    onNewMessageInputChange(newText);
   };
   return (
     <div className={styles.dialogs}>

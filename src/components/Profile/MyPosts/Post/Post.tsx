@@ -13,7 +13,7 @@ export const Post = (props: PropsType) => {
       <div className={styles.post}>
         <div>
           <img
-            src="https://avatars.mds.yandex.net/get-kino-vod-films-gallery/28788/47e2fd514411e18b76af786d7417062d/100x64_3"
+            src="https://www.slashfilm.com/img/gallery/avatars-mocap-tech-caused-some-literal-headaches-for-the-cast/l-intro-1658883843.jpg"
             alt=""
           />
         </div>

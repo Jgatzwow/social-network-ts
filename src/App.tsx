@@ -4,10 +4,11 @@ import Header from "./components/header/Header";
 import NavBar from "./components/navbar/NavBar";
 import Footer from "./components/footer/Footer";
 import { Profile } from "./components/Profile/Profile";
-import Dialogs from "./components/Dialogs/Dialogs";
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
-import { StateType, StoreType } from "./redux/store";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import { SideBar } from "./components/navbar/SideBar/SideBar";
+import { StateType, StoreType } from "./redux/ReduxStore";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 type PropsType = {
   appState: StateType;
@@ -16,7 +17,7 @@ type PropsType = {
 
 const App = (props: PropsType) => {
   const { appState, store } = props;
-
+  console.log(appState);
   return (
     <BrowserRouter>
       <div className="app__wrapper">
@@ -24,34 +25,11 @@ const App = (props: PropsType) => {
         <NavBar sideBar={appState.sideBar} />
         <div className="content">
           <Routes>
-            <Route
-              path={"/"}
-              element={
-                <Profile
-                  initialPostsState={appState.profilePage.initialPostsState}
-                  postMessage={appState.profilePage.postMessage}
-                  dispatch={store.dispatch.bind(store)}
-                />
-              }
-            />
-            <Route
-              path={"/Profile"}
-              element={
-                <Profile
-                  initialPostsState={appState.profilePage.initialPostsState}
-                  postMessage={appState.profilePage.postMessage}
-                  dispatch={store.dispatch.bind(store)}
-                />
-              }
-            />
+            <Route path={"/"} element={<Profile store={store} />} />
+            <Route path={"/Profile"} element={<Profile store={store} />} />
             <Route
               path={"/Dialogs"}
-              element={
-                <Dialogs
-                  dialogsPage={appState.dialogsPage}
-                  dispatch={store.dispatch.bind(store)}
-                />
-              }
+              element={<DialogsContainer store={store} />}
             >
               {/*<Route path={'*'} element={<h1>Michael Page Not Found</h1>}/>*/}
               <Route

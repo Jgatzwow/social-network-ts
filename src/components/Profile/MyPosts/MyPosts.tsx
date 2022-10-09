@@ -1,31 +1,28 @@
 import React, { useRef } from "react";
 import { Post } from "./Post/Post";
 import styles from "./MyPosts.module.css";
-import { ActionsType, PostsDataType } from "../../../redux/store";
-import {
-  addPostAC,
-  updateNewPostInputAC,
-} from "../../../redux/ProfilePageReducer";
+import { PostsDataType } from "../../../redux/ReduxStore";
 
 type PropsType = {
   initialPostsState: Array<PostsDataType>;
   postMessage: string;
-  dispatch: (action: ActionsType) => void;
+  updateNewPostText: (newPostMessage: string) => void;
+  addPost: () => void;
 };
 
 export const MyPosts = (props: PropsType) => {
-  const { initialPostsState, postMessage, dispatch } = props;
+  const { initialPostsState, postMessage, updateNewPostText, addPost } = props;
 
   const newPostInput = useRef<HTMLInputElement>(null);
 
   const onAddPostHandler = () => {
-    dispatch(addPostAC());
+    addPost();
   };
   const onPostChangeHandler = () => {
     let newPostMessage = newPostInput.current
       ? newPostInput.current.value
       : "-------";
-    dispatch(updateNewPostInputAC(newPostMessage));
+    updateNewPostText(newPostMessage);
   };
 
   return (

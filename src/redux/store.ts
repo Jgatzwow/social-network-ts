@@ -1,76 +1,11 @@
+// @ts-ignore
+export {};
+/*
 import { v1 } from "uuid";
-import {
-  ADD_POST,
-  profilePageReducer,
-  UPDATE_NEW_POST_INPUT,
-} from "./ProfilePageReducer";
-import {
-  ADD_MESSAGE,
-  dialogsPageReducer,
-  UPDATE_DIALOGS_MESSAGE_INPUT,
-} from "./DialogsPageReducer";
 import { sidebarPageReducer } from "./SidebarPageReducer";
-
-export type StateType = {
-  profilePage: ProfilePageType;
-  dialogsPage: DialogsPageType;
-  sideBar: Array<FriendsType>;
-};
-export type StoreType = {
-  _state: StateType;
-  subscribe: (observer: () => void) => void;
-  rerenderEntireTree: () => void;
-  setState: (state: StateType) => void;
-  getState: () => StateType;
-  dispatch: (action: ActionsType) => void;
-};
-export type ProfilePageType = {
-  initialPostsState: Array<PostsDataType>;
-  postMessage: string;
-};
-export type DialogsPageType = {
-  dialogsData: Array<DialogsDataType>;
-  messagesData: Array<MessagesDataType>;
-  dialogsMessage: string;
-};
-export type FriendsType = {
-  id: string;
-  friendsName: string;
-  friendsAva: string;
-};
-export type PostsDataType = {
-  id: string;
-  post: string;
-  likes: number;
-};
-export type DialogsDataType = {
-  id: string;
-  name: string;
-};
-export type MessagesDataType = {
-  id: string;
-  message: string;
-};
-export type ActionsType =
-  | AddPostActionType
-  | UpdateNewPostInputActionType
-  | AddMessageActionType
-  | UpdateNewMessageInputActionType;
-
-export type AddPostActionType = {
-  type: typeof ADD_POST;
-};
-export type AddMessageActionType = {
-  type: typeof ADD_MESSAGE;
-};
-export type UpdateNewPostInputActionType = {
-  type: typeof UPDATE_NEW_POST_INPUT;
-  newPostMessage: string;
-};
-export type UpdateNewMessageInputActionType = {
-  type: typeof UPDATE_DIALOGS_MESSAGE_INPUT;
-  newMessageText: string;
-};
+import { profilePageReducer } from "./ProfilePageReducer";
+import { dialogsPageReducer } from "./DialogsPageReducer";
+import { StateType, StoreType } from "./ReduxStore";
 
 export const store: StoreType = {
   _state: {
@@ -145,3 +80,4 @@ export const store: StoreType = {
     this.rerenderEntireTree();
   },
 };
+*/

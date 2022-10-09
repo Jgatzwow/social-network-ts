@@ -1,47 +1,57 @@
-import {
-  ActionsType,
-  AddPostActionType,
-  PostsDataType,
-  ProfilePageType,
-  UpdateNewPostInputActionType,
-} from "./store";
 import { v1 } from "uuid";
+import { PostsDataType } from "./ReduxStore";
 
 export const ADD_POST = "ADD-POST";
 export const UPDATE_NEW_POST_INPUT = "UPDATE-NEW-POST-INPUT";
 
+const initialState = {
+  initialPostsState: [
+    { id: v1(), post: "hello", likes: 123 },
+    { id: v1(), post: "sup", likes: 14123 },
+    { id: v1(), post: "Bye", likes: 23 },
+    { id: v1(), post: "Aloha", likes: 13 },
+  ] as Array<PostsDataType>,
+  postMessage: "",
+};
 export const profilePageReducer = (
-  state: ProfilePageType,
-  action: ActionsType
-) => {
+  state: InitialStateType = initialState,
+  action: ProfilePageActionTypes
+): InitialStateType => {
   switch (action.type) {
     case ADD_POST:
       const newPost: PostsDataType = {
         id: v1(),
-        post: state.profilePage.postMessage,
+        post: state.postMessage,
         likes: 0,
       };
-      state.profilePage.initialPostsState.push(newPost);
-      state.profilePage.postMessage = "";
+      state.initialPostsState.push(newPost);
+      state.postMessage = "";
       return state;
     case UPDATE_NEW_POST_INPUT:
-      state.profilePage.postMessage = action.newPostMessage;
+      state.postMessage = action.payload.newPostMessage;
       return state;
     default:
       return state;
   }
 };
+type InitialStateType = typeof initialState;
+export type ProfilePageActionTypes =
+  | AddPostActionType
+  | UpdateNewPostInputActionType;
 
-export const addPostAC = (): AddPostActionType => {
+type AddPostActionType = ReturnType<typeof addPostAC>;
+type UpdateNewPostInputActionType = ReturnType<typeof updateNewPostInputAC>;
+
+export const addPostAC = () => {
   return {
     type: "ADD-POST",
-  };
+  } as const;
 };
-export const updateNewPostInputAC = (
-  newPostMessage: string
-): UpdateNewPostInputActionType => {
+export const updateNewPostInputAC = (newPostMessage: string) => {
   return {
     type: "UPDATE-NEW-POST-INPUT",
-    newPostMessage: newPostMessage,
-  };
+    payload: {
+      newPostMessage,
+    },
+  } as const;
 };

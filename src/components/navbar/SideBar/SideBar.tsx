@@ -1,7 +1,8 @@
 import React from "react";
 import { Friend } from "./Friend/Friend";
-import { FriendsType } from "../../../redux/store";
+
 import styles from "./SideBar.module.css";
+import { FriendsType } from "../../../redux/ReduxStore";
 
 type PropsType = {
   friendsData: Array<FriendsType>;
