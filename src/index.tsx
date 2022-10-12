@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { store } from "./redux/ReduxStore";
-import { Provider } from "./redux/StoreContext";
+import { Provider } from "react-redux";
 
 const rerenderEntireTree = () => {
   ReactDOM.render(
     <Provider store={store}>
-      <App appState={store.getState()} store={store} />
+      <App appState={store.getState()} />
     </Provider>,
     document.getElementById("root")
   );

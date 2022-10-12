@@ -24,12 +24,14 @@ export const profilePageReducer = (
         post: state.postMessage,
         likes: 0,
       };
-      state.initialPostsState.push(newPost);
-      state.postMessage = "";
-      return state;
+      return {
+        ...state,
+        initialPostsState: [...state.initialPostsState, newPost],
+        postMessage: "",
+      };
     case UPDATE_NEW_POST_INPUT:
       state.postMessage = action.payload.newPostMessage;
-      return state;
+      return { ...state, postMessage: action.payload.newPostMessage };
     default:
       return state;
   }

@@ -44,7 +44,7 @@ const NavBar = (props: PropsType) => {
           </NavLink>
         </li>
       </ul>
-      {/*<SideBar friendsData={sideBar} />*/}
+      <SideBar friendsData={sideBar} />
     </nav>
   );
 };

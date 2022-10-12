@@ -4,18 +4,9 @@ import { Dialog } from "./Dialog/Dialog";
 import { Messages } from "./messages/Messages";
 
 import { Outlet } from "react-router-dom";
-import { DialogsDataType, MessagesDataType } from "../../redux/ReduxStore";
+import { DialogsPropsType } from "./DialogsContainer";
 
-type PropsType = {
-  dialogsPage: {
-    dialogsData: Array<DialogsDataType>;
-    messagesData: Array<MessagesDataType>;
-    dialogsMessage: string;
-  };
-  onNewMessageInputChange: (newText: string) => void;
-  onAddMessage: () => void;
-};
-const Dialogs = (props: PropsType) => {
+const Dialogs = (props: DialogsPropsType) => {
   const { dialogsPage, onNewMessageInputChange, onAddMessage } = props;
 
   const dialogsInputRef = useRef<HTMLInputElement>(null);

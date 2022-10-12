@@ -10,7 +10,6 @@ type PropsType = {
 export const Dialog = (props: PropsType) => {
   const params = useParams<"id">();
   const some = params;
-  console.log(some);
   const { id, name } = props;
   return (
     <div className={styles.dialog}>

@@ -7,34 +7,30 @@ import { Profile } from "./components/Profile/Profile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { SideBar } from "./components/navbar/SideBar/SideBar";
-import { StateType, StoreType } from "./redux/ReduxStore";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import { ProviderStoreType, StateType } from "./redux/ReduxStore";
+import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 
 type PropsType = {
   appState: StateType;
-  store: StoreType;
 };
 
 const App = (props: PropsType) => {
-  const { appState, store } = props;
+  const { appState } = props;
   console.log(appState);
   return (
     <BrowserRouter>
       <div className="app__wrapper">
         <Header />
-        <NavBar sideBar={appState.sideBar} />
+        <NavBar sideBar={appState.sidebar} />
         <div className="content">
           <Routes>
-            <Route path={"/"} element={<Profile store={store} />} />
-            <Route path={"/Profile"} element={<Profile store={store} />} />
-            <Route
-              path={"/Dialogs"}
-              element={<DialogsContainer store={store} />}
-            >
+            <Route path={"/"} element={<Profile />} />
+            <Route path={"/Profile"} element={<Profile />} />
+            <Route path={"/Dialogs"} element={<DialogsContainer />}>
               {/*<Route path={'*'} element={<h1>Michael Page Not Found</h1>}/>*/}
               <Route
                 path={":id"}
-                element={<SideBar friendsData={appState.sideBar} />}
+                element={<SideBar friendsData={appState.sidebar} />}
               />
             </Route>
           </Routes>

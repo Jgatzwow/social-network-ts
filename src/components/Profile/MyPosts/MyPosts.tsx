@@ -1,16 +1,9 @@
 import React, { useRef } from "react";
 import { Post } from "./Post/Post";
 import styles from "./MyPosts.module.css";
-import { PostsDataType } from "../../../redux/ReduxStore";
+import { MyPostsPropsType } from "./MyPostsContainer";
 
-type PropsType = {
-  initialPostsState: Array<PostsDataType>;
-  postMessage: string;
-  updateNewPostText: (newPostMessage: string) => void;
-  addPost: () => void;
-};
-
-export const MyPosts = (props: PropsType) => {
+export const MyPosts = (props: MyPostsPropsType) => {
   const { initialPostsState, postMessage, updateNewPostText, addPost } = props;
 
   const newPostInput = useRef<HTMLInputElement>(null);

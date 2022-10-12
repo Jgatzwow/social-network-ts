@@ -19,23 +19,25 @@ const initialState = {
   ] as Array<MessagesDataType>,
   dialogsMessage: "",
 };
-type InitialStateType = typeof initialState;
+export type DialogsInitialStateType = typeof initialState;
 export const dialogsPageReducer = (
-  state: InitialStateType = initialState,
+  state: DialogsInitialStateType = initialState,
   action: DialogsActionTypes
-): InitialStateType => {
+): DialogsInitialStateType => {
   switch (action.type) {
     case ADD_MESSAGE:
       const newMessage: MessagesDataType = {
         id: v1(),
         message: state.dialogsMessage,
       };
-      state.messagesData.push(newMessage);
-      state.dialogsMessage = "";
-      return state;
+      return {
+        ...state,
+        messagesData: [...state.messagesData, newMessage],
+        dialogsMessage: "",
+      };
     case UPDATE_DIALOGS_MESSAGE_INPUT:
       state.dialogsMessage = action.payload.newMessageText;
-      return state;
+      return { ...state, dialogsMessage: action.payload.newMessageText };
     default:
       return state;
   }

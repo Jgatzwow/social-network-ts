@@ -4,33 +4,39 @@ import {
   addPostAC,
   updateNewPostInputAC,
 } from "../../../redux/ProfilePageReducer";
-import { StoreType } from "../../../redux/ReduxStore";
+import { PostsDataType, StateType } from "../../../redux/ReduxStore";
 import { MyPosts } from "./MyPosts";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
-type PropsType = {
-  store: StoreType;
+type MapStateToPropsType = {
+  initialPostsState: PostsDataType[];
+  postMessage: string;
+};
+type MapDispatchToPropsType = {
+  updateNewPostText: (newPostMessage: string) => void;
+  addPost: () => void;
+};
+export type MyPostsPropsType = MapStateToPropsType & MapDispatchToPropsType;
+
+const mapStateToProps = (state: StateType): MapStateToPropsType => {
+  return {
+    initialPostsState: state.profilePage.initialPostsState,
+    postMessage: state.profilePage.postMessage,
+  };
+};
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
+  return {
+    addPost: () => {
+      dispatch(addPostAC());
+    },
+    updateNewPostText: (newPostMessage: string) => {
+      dispatch(updateNewPostInputAC(newPostMessage));
+    },
+  };
 };
 
-export const MyPostsContainer = (props: PropsType) => {
-  const { store } = props;
-
-  const state = store.getState();
-
-  const onAddPostHandler = () => {
-    store.dispatch(addPostAC());
-  };
-  const onPostChangeHandler = (newPostMessage: string) => {
-    store.dispatch(updateNewPostInputAC(newPostMessage));
-  };
-
-  return (
-    <MyPosts
-      initialPostsState={state.profilePage.initialPostsState}
-      postMessage={state.profilePage.postMessage}
-      updateNewPostText={(newPostMessage: string) =>
-        onPostChangeHandler(newPostMessage)
-      }
-      addPost={onAddPostHandler}
-    />
-  );
-};
+export const MyPostsContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyPosts);
