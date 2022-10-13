@@ -7,8 +7,9 @@ import { Profile } from "./components/Profile/Profile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { SideBar } from "./components/navbar/SideBar/SideBar";
-import { ProviderStoreType, StateType } from "./redux/ReduxStore";
+import { StateType } from "./redux/ReduxStore";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
+import { UsersContainer } from "./components/Users/UsersContainer";
 
 type PropsType = {
   appState: StateType;
@@ -26,6 +27,7 @@ const App = (props: PropsType) => {
           <Routes>
             <Route path={"/"} element={<Profile />} />
             <Route path={"/Profile"} element={<Profile />} />
+            <Route path={"/Users"} element={<UsersContainer />} />
             <Route path={"/Dialogs"} element={<DialogsContainer />}>
               {/*<Route path={'*'} element={<h1>Michael Page Not Found</h1>}/>*/}
               <Route
