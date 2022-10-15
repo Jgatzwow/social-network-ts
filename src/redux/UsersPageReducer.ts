@@ -3,16 +3,16 @@ type UsersType = {
 };
 
 export type UserType = {
-  id: string;
-  profilePic: string;
+  id: number;
+  photos: PhotosType;
   name: string;
   followed: boolean;
-  status: string;
-  location: LocationType;
+  status: string | null;
+  uniqueUrlName: string | null;
 };
-export type LocationType = {
-  city: string;
-  country: string;
+export type PhotosType = {
+  small: string | null;
+  large: string | null;
 };
 const initialState = {
   users: [],
@@ -52,7 +52,7 @@ type FollowActionType = ReturnType<typeof followAC>;
 type UnfollowActionType = ReturnType<typeof unfollowAC>;
 type SetUsersActionType = ReturnType<typeof setUsersAC>;
 
-export const followAC = (userId: string) => {
+export const followAC = (userId: number) => {
   return {
     type: "FOLLOW",
     payload: {
@@ -60,7 +60,7 @@ export const followAC = (userId: string) => {
     },
   } as const;
 };
-export const unfollowAC = (userId: string) => {
+export const unfollowAC = (userId: number) => {
   return {
     type: "UNFOLLOW",
     payload: {
