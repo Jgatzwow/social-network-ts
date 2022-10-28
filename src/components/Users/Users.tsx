@@ -1,63 +1,70 @@
 import React from "react";
-import { UsersPropsType } from "./UsersContainer";
 import styles from "./Users.module.css";
-import axios, { AxiosResponse } from "axios";
 import defaultProfilePic from "../../images/149071.png";
 import { UserType } from "../../redux/UsersPageReducer";
+import { NavLink } from "react-router-dom";
 
-export class Users extends React.Component<UsersPropsType> {
-  componentDidMount() {
-    this.getUsers();
+type PropsType = {
+  totalUsersCount: number;
+  pageSize: number;
+  currentPage: number;
+  onPageChangeHandler: (currPage: number) => void;
+  users: UserType[];
+  follow: (userId: number) => void;
+  unfollow: (userId: number) => void;
+};
+
+export const Users = (props: PropsType) => {
+  const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
+  const pages = [];
+  for (let i = 1; i <= pagesCount; i++) {
+    pages.push(i);
   }
-  getUsers = () => {
-    debugger;
-    if (this.props.users.length === 0) {
-      const instance = axios.create({
-        withCredentials: true,
-        baseURL: "https://social-network.samuraijs.com/api/1.0/",
-        headers: { "api-key": "c3e11594-611c-4916-b709-940cf6a62b5d" },
-      });
-      instance.get<UserType[]>("/users").then((response: AxiosResponse) => {
-        this.props.setUsers(response.data.items);
-      });
-    }
-  };
-  render() {
-    return (
+  return (
+    <div>
       <div>
-        <div>
-          {this.props.users.map((u) => {
-            return (
-              <div key={u.id}>
-                <div>
+        {pages.map((p, idx) => {
+          return (
+            <span
+              key={idx}
+              onClick={() => props.onPageChangeHandler(p)}
+              className={props.currentPage === p ? styles.selected__page : ""}
+            >
+              {p}
+            </span>
+          );
+        })}
+      </div>
+      <div>
+        {props.users.map((u) => {
+          return (
+            <div key={u.id}>
+              <div>
+                <NavLink to={"/Profile/2" + u.id}>
                   <img
                     className={styles.user__profilePic}
                     src={u.photos.small ? u.photos.small : defaultProfilePic}
                     alt="Profile"
-                  />
-                </div>
-                <div>
-                  {u.followed ? (
-                    <button onClick={() => this.props.unfollow(u.id)}>
-                      unfollow
-                    </button>
-                  ) : (
-                    <button onClick={() => this.props.follow(u.id)}>
-                      follow
-                    </button>
-                  )}
-                </div>
-                <div>
-                  <div>{u.name}</div>
-                  <div>{u.status}</div>
-                </div>
-                <div>city</div>
-                <div>country</div>
+                  />{" "}
+                </NavLink>
               </div>
-            );
-          })}
-        </div>
+              <div>
+                {u.followed ? (
+                  <button onClick={() => props.unfollow(u.id)}>unfollow</button>
+                ) : (
+                  <button onClick={() => props.follow(u.id)}>follow</button>
+                )}
+              </div>
+              <div>
+                <div>{u.name}</div>
+                <div>{u.status}</div>
+              </div>
+              <div>city</div>
+              <div>country</div>
+            </div>
+          );
+        })}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};

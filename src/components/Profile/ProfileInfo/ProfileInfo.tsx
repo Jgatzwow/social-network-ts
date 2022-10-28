@@ -1,7 +1,24 @@
 import React from "react";
 import styles from "./ProfileInfo.module.css";
+import profilePic from "../../../images/149071.png";
+import { Preloader } from "../../Common/Preloader/Preloader";
+import { UserProfileType } from "../../../redux/ProfilePageReducer";
 
-export const ProfileInfo = () => {
+type PropsType = {
+  profile: UserProfileType | null;
+};
+
+export const ProfileInfo = (props: PropsType) => {
+  if (!props.profile) return <Preloader />;
+  const {
+    photos,
+    aboutMe,
+    fullName,
+    lookingForAJobDescription,
+    lookingForAJob,
+    userId,
+    contacts,
+  } = props.profile;
   return (
     <div>
       <div className={styles.profile__bg}>
@@ -12,15 +29,19 @@ export const ProfileInfo = () => {
       </div>
       <div className={styles.ava__description_wrapper}>
         <div className={styles.profile__pic}>
-          <img
-            src="https://www.hollywoodreporter.com/wp-content/uploads/2019/03/avatar-publicity_still-h_2019.jpg?w=1024"
-            alt=""
-          />
+          <img src={photos.small || profilePic} alt="ProfilePic" />
         </div>
         <div>
-          <h2>My Name</h2>
-          <p>Date of Birth</p>
-          <p>City</p>
+          <h2>{fullName}</h2>
+          <p>{aboutMe}</p>
+          <p>lookingForAJob{lookingForAJob}</p>
+          <p>Description: {lookingForAJobDescription}</p>
+          <div>Contacts:</div>
+          <p>{contacts.twitter}</p>
+          <p>{contacts.vk}</p>
+          <p>{contacts.github}</p>
+          <p>{contacts.youtube}</p>
+          <p>{contacts.instagram}</p>
         </div>
       </div>
     </div>

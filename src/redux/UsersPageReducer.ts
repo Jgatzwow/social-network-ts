@@ -1,5 +1,9 @@
 type UsersType = {
   users: UserType[];
+  pageSize: number;
+  totalUsersCount: number;
+  currentPage: number;
+  isFetching: boolean;
 };
 
 export type UserType = {
@@ -16,6 +20,10 @@ export type PhotosType = {
 };
 const initialState = {
   users: [],
+  pageSize: 5,
+  totalUsersCount: 20,
+  currentPage: 2,
+  isFetching: false,
 };
 export const usersPageReducer = (
   state: InitialStateType = initialState,
@@ -37,7 +45,13 @@ export const usersPageReducer = (
         ),
       };
     case "SET-USERS":
-      return { ...state, users: [...state.users, ...action.payload.users] };
+      return { ...state, users: action.payload.users };
+    case "SET-CURRENT-PAGE":
+      return { ...state, currentPage: action.payload.currentPage };
+    case "SET-TOTAL-USERS-COUNT":
+      return { ...state, totalUsersCount: action.payload.totalUsersCount };
+    case "SET-FETCHING":
+      return { ...state, isFetching: action.payload.isFetching };
     default:
       return state;
   }
@@ -46,13 +60,19 @@ type InitialStateType = typeof initialState | UsersType;
 export type UsersPageActionTypes =
   | FollowActionType
   | UnfollowActionType
-  | SetUsersActionType;
+  | SetUsersActionType
+  | setCurrentPageACType
+  | setTotalUsersCountACType
+  | setFetchingACType;
 
-type FollowActionType = ReturnType<typeof followAC>;
-type UnfollowActionType = ReturnType<typeof unfollowAC>;
-type SetUsersActionType = ReturnType<typeof setUsersAC>;
+type FollowActionType = ReturnType<typeof follow>;
+type UnfollowActionType = ReturnType<typeof unfollow>;
+type SetUsersActionType = ReturnType<typeof setUsers>;
+type setCurrentPageACType = ReturnType<typeof setCurrentPage>;
+type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCount>;
+type setFetchingACType = ReturnType<typeof setFetching>;
 
-export const followAC = (userId: number) => {
+export const follow = (userId: number) => {
   return {
     type: "FOLLOW",
     payload: {
@@ -60,7 +80,7 @@ export const followAC = (userId: number) => {
     },
   } as const;
 };
-export const unfollowAC = (userId: number) => {
+export const unfollow = (userId: number) => {
   return {
     type: "UNFOLLOW",
     payload: {
@@ -68,11 +88,35 @@ export const unfollowAC = (userId: number) => {
     },
   } as const;
 };
-export const setUsersAC = (users: UserType[]) => {
+export const setUsers = (users: UserType[]) => {
   return {
     type: "SET-USERS",
     payload: {
       users,
+    },
+  } as const;
+};
+export const setCurrentPage = (currentPage: number) => {
+  return {
+    type: "SET-CURRENT-PAGE",
+    payload: {
+      currentPage,
+    },
+  } as const;
+};
+export const setTotalUsersCount = (totalUsersCount: number) => {
+  return {
+    type: "SET-TOTAL-USERS-COUNT",
+    payload: {
+      totalUsersCount,
+    },
+  } as const;
+};
+export const setFetching = (isFetching: boolean) => {
+  return {
+    type: "SET-FETCHING",
+    payload: {
+      isFetching,
     },
   } as const;
 };
