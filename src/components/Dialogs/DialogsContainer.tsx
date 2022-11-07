@@ -3,13 +3,14 @@ import {
   addMessageAC,
   updateNewMessageInputAC,
 } from "../../redux/DialogsPageReducer";
-import { DialogsPageType, StateType } from "../../redux/ReduxStore";
+import { DialogsPageType } from "../../redux/ReduxStore";
 import Dialogs from "./Dialogs";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 type MapStateToPropsType = {
   dialogsPage: DialogsPageType;
+  isAuth: boolean;
 };
 type MapDispatchToPropsType = {
   onNewMessageInputChange: (newText: string) => void;
@@ -17,9 +18,10 @@ type MapDispatchToPropsType = {
 };
 
 export type DialogsPropsType = MapStateToPropsType & MapDispatchToPropsType;
-const mapStateToProps = (state: StateType): MapStateToPropsType => {
+const mapStateToProps = (state: any): MapStateToPropsType => {
   return {
     dialogsPage: state.dialogsPage,
+    isAuth: state.auth.isAuth,
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {

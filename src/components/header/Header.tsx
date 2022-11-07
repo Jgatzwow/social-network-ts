@@ -1,7 +1,14 @@
 import React from "react";
 import styles from "./Header.module.css";
+import { NavLink } from "react-router-dom";
 
-const Header = () => {
+type PropsType = {
+  login: string | null;
+  isAuth: boolean;
+};
+
+const Header = (props: PropsType) => {
+  const { login, isAuth } = props;
   return (
     <header className={styles.header}>
       <div className={styles.header__logo_wrapper}>
@@ -11,6 +18,15 @@ const Header = () => {
             alt="logo"
           />
         </a>
+      </div>
+      <div className={styles.login__block}>
+        {isAuth ? (
+          login
+        ) : (
+          <NavLink className={styles.login__link} to={"/login"}>
+            Login
+          </NavLink>
+        )}
       </div>
     </header>
   );

@@ -10,8 +10,9 @@ type PropsType = {
   currentPage: number;
   onPageChangeHandler: (currPage: number) => void;
   users: UserType[];
-  follow: (userId: number) => void;
-  unfollow: (userId: number) => void;
+  followingInProgress: number[];
+  followUser: Function;
+  unfollowUser: Function;
 };
 
 export const Users = (props: PropsType) => {
@@ -20,6 +21,7 @@ export const Users = (props: PropsType) => {
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
   }
+
   return (
     <div>
       <div>
@@ -50,9 +52,27 @@ export const Users = (props: PropsType) => {
               </div>
               <div>
                 {u.followed ? (
-                  <button onClick={() => props.unfollow(u.id)}>unfollow</button>
+                  <button
+                    disabled={props.followingInProgress.some(
+                      (id) => id === u.id
+                    )}
+                    onClick={() => {
+                      props.unfollowUser(u.id);
+                    }}
+                  >
+                    unfollow
+                  </button>
                 ) : (
-                  <button onClick={() => props.follow(u.id)}>follow</button>
+                  <button
+                    disabled={props.followingInProgress.some(
+                      (id) => id === u.id
+                    )}
+                    onClick={() => {
+                      props.followUser(u.id);
+                    }}
+                  >
+                    follow
+                  </button>
                 )}
               </div>
               <div>

@@ -1,37 +1,70 @@
+import { Dispatch } from "redux";
+import { authAPI } from "../api/API";
+import { AxiosResponse } from "axios";
+
 const initialState = {
   userId: null,
   email: null,
   login: null,
+  isAuth: false,
 };
 
-type InitialStateType = typeof initialState;
+export type InitialStateType = {
+  userId: number | null;
+  email: string | null;
+  login: string | null;
+  isAuth: boolean;
+};
+
 export const authReducer = (
-  state: InitialStateType,
+  state: InitialStateType = initialState,
   action: AuthActionsType
-): InitialStateType => {
+) => {
   switch (action.type) {
-    case "SET-USER-DATA":
-      return { ...state, ...action.payload };
+    case "SET-AUTH-USER-DATA": {
+      debugger;
+      return {
+        ...state,
+        ...action.payload,
+        isAuth: true,
+      };
+    }
     default:
       return state;
   }
 };
 
-type AuthActionsType = setUserDataACType;
+type AuthActionsType = setAuthUserDataACType;
 
-type setUserDataACType = ReturnType<typeof setUserData>;
+type setAuthUserDataACType = ReturnType<typeof setAuthUserData>;
 
-export const setUserData = (
+export const setAuthUserData = (
   userId: number | null,
   email: string | null,
   login: boolean | null
 ) => {
   return {
-    type: "SET-USER-DATA",
+    type: "SET-AUTH-USER-DATA",
     payload: {
       userId,
       email,
       login,
     },
   } as const;
+};
+
+export const getAuthUserData = () => {
+  return (dispatch: Dispatch) => {
+    authAPI.me().then((response: AxiosResponse) => {
+      if (response.data.resultCode === 0) {
+        dispatch(
+          setAuthUserData(
+            response.data.data.id,
+            response.data.data.email,
+            response.data.data.login
+          )
+        );
+      }
+    });
+  };
 };

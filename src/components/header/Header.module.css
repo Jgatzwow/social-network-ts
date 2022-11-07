@@ -1,6 +1,9 @@
 .header {
     background: green;
     grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header__logo_wrapper {
@@ -15,3 +18,10 @@
     height: 35px;
 }
 
+.login__block {
+    margin-right: 10px;
+}
+.login__link {
+    text-decoration: none;
+    color: #f8f8f8;
+}

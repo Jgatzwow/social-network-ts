@@ -1,6 +1,9 @@
 import { v1 } from "uuid";
 import { PostsDataType } from "./ReduxStore";
 import { PhotosType } from "./UsersPageReducer";
+import { Dispatch } from "redux";
+import { instance } from "../api/API";
+import { AxiosResponse } from "axios";
 
 export const ADD_POST = "ADD-POST";
 export const UPDATE_NEW_POST_INPUT = "UPDATE-NEW-POST-INPUT";
@@ -91,4 +94,14 @@ export const setUserProfile = (profile: any) => {
       profile,
     },
   } as const;
+};
+
+export const getUserProfile = (userId: number) => {
+  return (dispatch: Dispatch) => {
+    instance
+      .get<UserProfileType>(`/profile/2`)
+      .then((response: AxiosResponse) => {
+        dispatch(setUserProfile(response.data));
+      });
+  };
 };

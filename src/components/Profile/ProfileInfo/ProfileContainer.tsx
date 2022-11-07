@@ -1,24 +1,32 @@
-import { StateType } from "../../../redux/ReduxStore";
 import { connect } from "react-redux";
 import {
-  setUserProfile,
+  getUserProfile,
   UserProfileType,
 } from "../../../redux/ProfilePageReducer";
 import { ProfileAPIComponent } from "../ProfileAPIComponent";
 
 type MapStateToPropsType = {
   profile: UserProfileType | null;
+  isAuth: boolean;
 };
 type MapDispatchToPropsType = {
-  setUserProfile: (profile: any) => void;
+  getUserProfile: Function;
 };
 export type UsersProfilePropsType = MapStateToPropsType &
   MapDispatchToPropsType;
-const mapStateToProps = (state: StateType): MapStateToPropsType => {
+const mapStateToProps = (state: any): MapStateToPropsType => {
   return {
     profile: state.profilePage.profile,
+    isAuth: state.auth.isAuth,
   };
 };
-export const ProfileContainer = connect(mapStateToProps, { setUserProfile })(
+
+/*let UrlDataContainerComponent = (props: any) => {
+  let match = useMatch("/Profile/:userId").params.userId;
+ // ParamParseKey<Path>, Path extends string>(pattern: PathPattern<Path> | Path): PathMatch<ParamKey> | null;
+  return <ProfileContainer {...props} match={match} />;
+};*/
+
+export const ProfileContainer = connect(mapStateToProps, { getUserProfile })(
   ProfileAPIComponent
 );

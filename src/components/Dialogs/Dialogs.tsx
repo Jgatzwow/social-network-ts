@@ -3,11 +3,11 @@ import styles from "./Dialogs.module.css";
 import { Dialog } from "./Dialog/Dialog";
 import { Messages } from "./messages/Messages";
 
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { DialogsPropsType } from "./DialogsContainer";
 
 const Dialogs = (props: DialogsPropsType) => {
-  const { dialogsPage, onNewMessageInputChange, onAddMessage } = props;
+  const { dialogsPage, onNewMessageInputChange, onAddMessage, isAuth } = props;
 
   const dialogsInputRef = useRef<HTMLInputElement>(null);
 
@@ -18,6 +18,7 @@ const Dialogs = (props: DialogsPropsType) => {
     let newText = dialogsInputRef.current ? dialogsInputRef.current.value : "";
     onNewMessageInputChange(newText);
   };
+  if (!isAuth) return <Navigate to={"/Login"} />;
   return (
     <div className={styles.dialogs}>
       <div className={styles.dialogs__items}>

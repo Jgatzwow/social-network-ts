@@ -1,9 +1,15 @@
+import { Dispatch } from "redux";
+import { authAPI, instance, usersAPI } from "../api/API";
+import { AxiosResponse } from "axios";
+import { UserProfileType } from "./ProfilePageReducer";
+
 type UsersType = {
   users: UserType[];
   pageSize: number;
   totalUsersCount: number;
   currentPage: number;
   isFetching: boolean;
+  followingInProgress: number[];
 };
 
 export type UserType = {
@@ -24,6 +30,7 @@ const initialState = {
   totalUsersCount: 20,
   currentPage: 2,
   isFetching: false,
+  followingInProgress: [],
 };
 export const usersPageReducer = (
   state: InitialStateType = initialState,
@@ -52,6 +59,15 @@ export const usersPageReducer = (
       return { ...state, totalUsersCount: action.payload.totalUsersCount };
     case "SET-FETCHING":
       return { ...state, isFetching: action.payload.isFetching };
+    case "TOGGLE-FOLLOWING":
+      return {
+        ...state,
+        followingInProgress: action.payload.isFetching
+          ? [...state.followingInProgress, action.payload.userId]
+          : state.followingInProgress.filter(
+              (id) => id !== action.payload.userId
+            ),
+      };
     default:
       return state;
   }
@@ -63,7 +79,8 @@ export type UsersPageActionTypes =
   | SetUsersActionType
   | setCurrentPageACType
   | setTotalUsersCountACType
-  | setFetchingACType;
+  | setFetchingACType
+  | toggleFollowingACType;
 
 type FollowActionType = ReturnType<typeof follow>;
 type UnfollowActionType = ReturnType<typeof unfollow>;
@@ -71,6 +88,7 @@ type SetUsersActionType = ReturnType<typeof setUsers>;
 type setCurrentPageACType = ReturnType<typeof setCurrentPage>;
 type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCount>;
 type setFetchingACType = ReturnType<typeof setFetching>;
+type toggleFollowingACType = ReturnType<typeof toggleFollowing>;
 
 export const follow = (userId: number) => {
   return {
@@ -119,4 +137,49 @@ export const setFetching = (isFetching: boolean) => {
       isFetching,
     },
   } as const;
+};
+
+export const toggleFollowing = (isFetching: boolean, userId: number) => {
+  return {
+    type: "TOGGLE-FOLLOWING",
+    payload: {
+      isFetching,
+      userId,
+    },
+  } as const;
+};
+
+export const getUsers = (currentPage: number, pageSize: number) => {
+  return (dispatch: Dispatch) => {
+    dispatch(setFetching(true));
+    usersAPI.getUsers(currentPage, pageSize).then((data) => {
+      debugger;
+      dispatch(setFetching(false));
+      dispatch(setUsers(data.items));
+    });
+  };
+};
+
+export const followUser = (userId: number) => {
+  return (dispatch: Dispatch) => {
+    dispatch(toggleFollowing(true, userId));
+    usersAPI.followUser(userId).then((response: AxiosResponse) => {
+      if (response.data.resultCode === 0) {
+        dispatch(follow(userId));
+      }
+      dispatch(toggleFollowing(false, userId));
+    });
+  };
+};
+
+export const unfollowUser = (userId: number) => {
+  return (dispatch: Dispatch) => {
+    dispatch(toggleFollowing(true, userId));
+    usersAPI.unfollowUser(userId).then((response: AxiosResponse) => {
+      if (response.data.resultCode === 0) {
+        dispatch(unfollow(userId));
+      }
+      dispatch(toggleFollowing(false, userId));
+    });
+  };
 };

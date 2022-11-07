@@ -3,11 +3,12 @@ import { UsersAPIComponent } from "./UsersAPIComponent";
 import { StateType } from "../../redux/ReduxStore";
 import {
   follow,
+  followUser,
+  getUsers,
   setCurrentPage,
-  setFetching,
-  setTotalUsersCount,
-  setUsers,
+  toggleFollowing,
   unfollow,
+  unfollowUser,
   UserType,
 } from "../../redux/UsersPageReducer";
 
@@ -17,14 +18,13 @@ type MapStateToPropsType = {
   totalUsersCount: number;
   currentPage: number;
   isFetching: boolean;
+  followingInProgress: number[];
 };
 type MapDispatchToPropsType = {
-  follow: (userId: number) => void;
-  unfollow: (userId: number) => void;
-  setUsers: (users: UserType[]) => void;
   setCurrentPage: (currPage: number) => void;
-  setTotalUsersCount: (totalUsersCount: number) => void;
-  setFetching: (isFetching: boolean) => void;
+  getUsers: Function;
+  followUser: Function;
+  unfollowUser: Function;
 };
 export type UsersAPIPropsType = MapStateToPropsType & MapDispatchToPropsType;
 const mapStateToProps = (state: StateType): MapStateToPropsType => {
@@ -34,36 +34,14 @@ const mapStateToProps = (state: StateType): MapStateToPropsType => {
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,
+    followingInProgress: state.usersPage.followingInProgress,
   };
 };
-/*const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
-  return {
-    follow: (userId: number) => {
-      dispatch(followAC(userId));
-    },
-    unfollow: (userId: number) => {
-      dispatch(unfollowAC(userId));
-    },
-    setUsers: (users: UserType[]) => {
-      dispatch(setUsersAC(users));
-    },
-    setCurrentPage: (currPage: number) => {
-      dispatch(setCurrentPageAC(currPage));
-    },
-    setTotalUsersCount: (totalUsersCount: number) => {
-      dispatch(setTotalUsersCountAC(totalUsersCount));
-    },
-    setFetching: (isFetching: boolean) => {
-      dispatch(setFetchingAC(isFetching));
-    },
-  };
-};*/
 
 export const UsersContainer = connect(mapStateToProps, {
-  follow,
-  unfollow,
-  setUsers,
   setCurrentPage,
-  setTotalUsersCount,
-  setFetching,
+  toggleFollowing,
+  getUsers,
+  followUser,
+  unfollowUser,
 })(UsersAPIComponent);

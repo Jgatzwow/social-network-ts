@@ -10,6 +10,8 @@ import { StateType } from "./redux/ReduxStore";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 import { UsersContainer } from "./components/Users/UsersContainer";
 import { ProfileContainer } from "./components/Profile/ProfileInfo/ProfileContainer";
+import { HeaderContainer } from "./components/header/HeaderContainer";
+import { Login } from "./components/Login/Login";
 
 type PropsType = {
   appState: StateType;
@@ -20,13 +22,14 @@ const App = (props: PropsType) => {
   return (
     <BrowserRouter>
       <div className="app__wrapper">
-        <Header />
+        <HeaderContainer />
         <NavBar sideBar={appState.sidebar} />
         <div className="content">
           <Routes>
             <Route path={"/"} element={<ProfileContainer />} />
             <Route path={"/Profile"} element={<ProfileContainer />} />
             <Route path={"/Users"} element={<UsersContainer />} />
+            <Route path={"/Login"} element={<Login />} />
             <Route path={"/Dialogs"} element={<DialogsContainer />}>
               {/*<Route path={'*'} element={<h1>Michael Page Not Found</h1>}/>*/}
               <Route
