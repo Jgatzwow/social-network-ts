@@ -42,7 +42,7 @@ export const Users = (props: PropsType) => {
           return (
             <div key={u.id}>
               <div>
-                <NavLink to={"/Profile/2" + u.id}>
+                <NavLink to={"/Profile/" + u.id}>
                   <img
                     className={styles.user__profilePic}
                     src={u.photos.small ? u.photos.small : defaultProfilePic}

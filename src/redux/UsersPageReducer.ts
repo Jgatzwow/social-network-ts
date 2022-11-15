@@ -1,7 +1,6 @@
 import { Dispatch } from "redux";
-import { authAPI, instance, usersAPI } from "../api/API";
+import { usersAPI } from "../api/API";
 import { AxiosResponse } from "axios";
-import { UserProfileType } from "./ProfilePageReducer";
 
 type UsersType = {
   users: UserType[];

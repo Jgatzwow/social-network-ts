@@ -2,7 +2,7 @@ import { v1 } from "uuid";
 import { PostsDataType } from "./ReduxStore";
 import { PhotosType } from "./UsersPageReducer";
 import { Dispatch } from "redux";
-import { instance } from "../api/API";
+import { profileAPI } from "../api/API";
 import { AxiosResponse } from "axios";
 
 export const ADD_POST = "ADD-POST";
@@ -57,8 +57,11 @@ export const profilePageReducer = (
     case UPDATE_NEW_POST_INPUT:
       state.postMessage = action.payload.newPostMessage;
       return { ...state, postMessage: action.payload.newPostMessage };
-    case "SET-USER-PROFILE":
+    case "SET-USER-PROFILE": {
+      debugger;
       return { ...state, profile: action.payload.profile };
+    }
+
     default:
       return state;
   }
@@ -88,6 +91,7 @@ export const updateNewPostInputAC = (newPostMessage: string) => {
 };
 
 export const setUserProfile = (profile: any) => {
+  debugger;
   return {
     type: "SET-USER-PROFILE",
     payload: {
@@ -97,11 +101,11 @@ export const setUserProfile = (profile: any) => {
 };
 
 export const getUserProfile = (userId: number) => {
+  debugger;
   return (dispatch: Dispatch) => {
-    instance
-      .get<UserProfileType>(`/profile/2`)
-      .then((response: AxiosResponse) => {
-        dispatch(setUserProfile(response.data));
-      });
+    debugger;
+    profileAPI.getProfile(userId).then((response) => {
+      dispatch(setUserProfile(response.data));
+    });
   };
 };

@@ -14,7 +14,7 @@ const NavBar = (props: PropsType) => {
     <nav className={styles.navbar}>
       <ul className={styles.navbar__list}>
         <li className={styles.item}>
-          <NavLink className={styles.navbar__link} to="/Profile">
+          <NavLink className={styles.navbar__link} to="/Profile/26179">
             {" "}
             Profile
           </NavLink>

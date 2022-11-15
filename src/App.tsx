@@ -1,17 +1,15 @@
 import React from "react";
 import "./App.css";
-import Header from "./components/header/Header";
 import NavBar from "./components/navbar/NavBar";
 import Footer from "./components/footer/Footer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import { SideBar } from "./components/navbar/SideBar/SideBar";
 import { StateType } from "./redux/ReduxStore";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 import { UsersContainer } from "./components/Users/UsersContainer";
-import { ProfileContainer } from "./components/Profile/ProfileInfo/ProfileContainer";
 import { HeaderContainer } from "./components/header/HeaderContainer";
 import { Login } from "./components/Login/Login";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 
 type PropsType = {
   appState: StateType;
@@ -27,7 +25,7 @@ const App = (props: PropsType) => {
         <div className="content">
           <Routes>
             <Route path={"/"} element={<ProfileContainer />} />
-            <Route path={"/Profile"} element={<ProfileContainer />} />
+            <Route path={"/Profile/:userId"} element={<ProfileContainer />} />
             <Route path={"/Users"} element={<UsersContainer />} />
             <Route path={"/Login"} element={<Login />} />
             <Route path={"/Dialogs"} element={<DialogsContainer />}>

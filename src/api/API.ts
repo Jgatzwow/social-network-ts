@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { UserProfileType } from "../redux/ProfilePageReducer";
 import { AuthDataType } from "../components/header/HeaderAPIContainer";
 
 export const instance = axios.create({
   withCredentials: true,
-  baseURL: "https://social-network.samuraijs.com/api/1.0/",
+  baseURL: "https://social-network.samuraijs.com/api/1.0",
   headers: { "api-key": "c3e11594-611c-4916-b709-940cf6a62b5d" },
 });
 
@@ -25,6 +25,7 @@ export const usersAPI = {
 };
 export const profileAPI = {
   getProfile(userId: number) {
+    debugger;
     return instance.get<UserProfileType>(`/profile/${userId}`);
   },
 };
