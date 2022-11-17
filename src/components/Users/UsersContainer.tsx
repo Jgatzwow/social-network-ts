@@ -1,16 +1,16 @@
+import React from "react";
+import { Users } from "./Users";
+import { Preloader } from "../Common/Preloader/Preloader";
 import { connect } from "react-redux";
-import { UsersAPIComponent } from "./UsersAPIComponent";
-import { StateType } from "../../redux/ReduxStore";
 import {
-  follow,
   followUser,
   getUsers,
   setCurrentPage,
   toggleFollowing,
-  unfollow,
   unfollowUser,
   UserType,
 } from "../../redux/UsersPageReducer";
+import { StateType } from "../../redux/ReduxStore";
 
 type MapStateToPropsType = {
   users: UserType[];
@@ -22,11 +22,12 @@ type MapStateToPropsType = {
 };
 type MapDispatchToPropsType = {
   setCurrentPage: (currPage: number) => void;
-  getUsers: Function;
-  followUser: Function;
-  unfollowUser: Function;
+  getUsers: (currentPage: number, pageSize: number) => void;
+  followUser: (userId: number) => void;
+  unfollowUser: (userId: number) => void;
 };
-export type UsersAPIPropsType = MapStateToPropsType & MapDispatchToPropsType;
+export type UsersContainerPropsType = MapStateToPropsType &
+  MapDispatchToPropsType;
 const mapStateToProps = (state: StateType): MapStateToPropsType => {
   return {
     users: state.usersPage.users,
@@ -38,10 +39,37 @@ const mapStateToProps = (state: StateType): MapStateToPropsType => {
   };
 };
 
-export const UsersContainer = connect(mapStateToProps, {
+class UsersContainer extends React.Component<UsersContainerPropsType> {
+  componentDidMount() {
+    this.props.getUsers(this.props.currentPage, this.props.pageSize);
+  }
+
+  onPageChangeHandler = (p: number) => {
+    this.props.getUsers(p, this.props.pageSize);
+    this.props.setCurrentPage(p);
+  };
+
+  render() {
+    if (this.props.isFetching) return <Preloader />;
+    return (
+      <Users
+        totalUsersCount={this.props.totalUsersCount}
+        onPageChangeHandler={this.onPageChangeHandler}
+        currentPage={this.props.currentPage}
+        users={this.props.users}
+        pageSize={this.props.pageSize}
+        followingInProgress={this.props.followingInProgress}
+        followUser={this.props.followUser}
+        unfollowUser={this.props.unfollowUser}
+      />
+    );
+  }
+}
+
+export default connect(mapStateToProps, {
   setCurrentPage,
   toggleFollowing,
   getUsers,
   followUser,
   unfollowUser,
-})(UsersAPIComponent);
+})(UsersContainer);

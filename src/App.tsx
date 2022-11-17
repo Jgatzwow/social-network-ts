@@ -6,10 +6,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { SideBar } from "./components/navbar/SideBar/SideBar";
 import { StateType } from "./redux/ReduxStore";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
-import { UsersContainer } from "./components/Users/UsersContainer";
-import { HeaderContainer } from "./components/header/HeaderContainer";
 import { Login } from "./components/Login/Login";
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import UsersContainer from "./components/Users/UsersContainer";
+import HeaderContainer from "./components/header/HeaderContainer";
 
 type PropsType = {
   appState: StateType;
@@ -24,7 +24,7 @@ const App = (props: PropsType) => {
         <NavBar sideBar={appState.sidebar} />
         <div className="content">
           <Routes>
-            <Route path={"/"} element={<ProfileContainer />} />
+            <Route path={"/Profile"} element={<ProfileContainer />} />
             <Route path={"/Profile/:userId"} element={<ProfileContainer />} />
             <Route path={"/Users"} element={<UsersContainer />} />
             <Route path={"/Login"} element={<Login />} />

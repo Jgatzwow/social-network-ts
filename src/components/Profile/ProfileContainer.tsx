@@ -8,6 +8,7 @@ import {
   UserProfileType,
 } from "../../redux/ProfilePageReducer";
 import { StateType } from "../../redux/ReduxStore";
+import { withAuthRedirectComponent } from "../redirectHoc/withAuthRedirectComponent";
 
 type MapStateToPropsType = {
   profile: UserProfileType | null;
@@ -34,16 +35,17 @@ class ProfileContainer extends React.Component<UsersProfilePropsType> {
   }
 
   render() {
-    if (!this.props.isAuth) return <Navigate to={"/Login"} />;
     return <Profile {...this.props} profile={this.props.profile} />;
   }
 }
+
+const AuthRedirectComponent = withAuthRedirectComponent(ProfileContainer);
 
 const UrlDataContainerComponent = (props: any) => {
   // @ts-ignore
   let match = useMatch("/Profile/:userId").params.userId;
 
-  return <ProfileContainer {...props} match={match} />;
+  return <AuthRedirectComponent {...props} match={match} />;
 };
 
 export default connect(mapStateToProps, { getUserProfile })(

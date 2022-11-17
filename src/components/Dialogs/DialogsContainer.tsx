@@ -3,7 +3,7 @@ import {
   addMessageAC,
   updateNewMessageInputAC,
 } from "../../redux/DialogsPageReducer";
-import { DialogsPageType } from "../../redux/ReduxStore";
+import { DialogsPageType, StateType } from "../../redux/ReduxStore";
 import Dialogs from "./Dialogs";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -18,7 +18,7 @@ type MapDispatchToPropsType = {
 };
 
 export type DialogsPropsType = MapStateToPropsType & MapDispatchToPropsType;
-const mapStateToProps = (state: any): MapStateToPropsType => {
+const mapStateToProps = (state: StateType): MapStateToPropsType => {
   return {
     dialogsPage: state.dialogsPage,
     isAuth: state.auth.isAuth,

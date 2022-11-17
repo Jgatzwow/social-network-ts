@@ -1,6 +1,6 @@
 import axios from "axios";
 import { UserProfileType } from "../redux/ProfilePageReducer";
-import { AuthDataType } from "../components/header/HeaderAPIContainer";
+import { AuthDataType } from "../components/header/HeaderContainer";
 
 export const instance = axios.create({
   withCredentials: true,
