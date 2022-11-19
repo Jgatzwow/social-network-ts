@@ -1,14 +1,14 @@
 import React from "react";
 import { Profile } from "./Profile";
-
-import { Navigate, useMatch } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   getUserProfile,
   UserProfileType,
 } from "../../redux/ProfilePageReducer";
 import { StateType } from "../../redux/ReduxStore";
-import { withAuthRedirectComponent } from "../redirectHoc/withAuthRedirectComponent";
+import { withAuthRedirectComponent } from "../HOCs/redirectHoc/withAuthRedirectComponent";
+import { withURLDataComponent } from "../HOCs/withURLdataHoc/withURLDataComponent";
+import { compose } from "redux";
 
 type MapStateToPropsType = {
   profile: UserProfileType | null;
@@ -39,15 +39,8 @@ class ProfileContainer extends React.Component<UsersProfilePropsType> {
   }
 }
 
-const AuthRedirectComponent = withAuthRedirectComponent(ProfileContainer);
-
-const UrlDataContainerComponent = (props: any) => {
-  // @ts-ignore
-  let match = useMatch("/Profile/:userId").params.userId;
-
-  return <AuthRedirectComponent {...props} match={match} />;
-};
-
-export default connect(mapStateToProps, { getUserProfile })(
-  UrlDataContainerComponent
-);
+export default compose<React.ComponentType>(
+  connect(mapStateToProps, { getUserProfile }),
+  withURLDataComponent,
+  withAuthRedirectComponent
+)(ProfileContainer);
