@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { SideBar } from "./components/navbar/SideBar/SideBar";
 import { StateType } from "./redux/ReduxStore";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
-import { Login } from "./components/Login/Login";
+import Login from "./components/Login/Login";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/header/HeaderContainer";

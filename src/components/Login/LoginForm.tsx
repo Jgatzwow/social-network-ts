@@ -4,7 +4,7 @@ import { Input } from "../Common/FormsControls/Input";
 import { required } from "../../utils/validators";
 
 export type FormDataType = {
-  login: string;
+  email: string;
   password: string;
   rememberMe: boolean;
 };
@@ -15,16 +15,17 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
       <form onSubmit={props.handleSubmit}>
         <div>
           <Field
-            name={"login"}
-            placeholder={"Login"}
+            name={"email"}
+            placeholder={"Email"}
             component={Input}
             validate={[required]}
           />
         </div>
         <div>
           <Field
+            type={"password"}
             name={"password"}
-            placeholder={"Password"}
+            placeholder={"password"}
             component={Input}
             validate={[required]}
           />

@@ -5,10 +5,11 @@ import { NavLink } from "react-router-dom";
 type PropsType = {
   login: string | null;
   isAuth: boolean;
+  logout: () => void;
 };
 
 const Header = (props: PropsType) => {
-  const { login, isAuth } = props;
+  const { login, isAuth, logout } = props;
   return (
     <header className={styles.header}>
       <div className={styles.header__logo_wrapper}>
@@ -21,7 +22,9 @@ const Header = (props: PropsType) => {
       </div>
       <div className={styles.login__block}>
         {isAuth ? (
-          login
+          <div>
+            {login} - <button onClick={logout}>Logout</button>
+          </div>
         ) : (
           <NavLink className={styles.login__link} to={"/login"}>
             Login
