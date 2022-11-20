@@ -3,10 +3,8 @@ import { PostsDataType } from "./ReduxStore";
 import { PhotosType } from "./UsersPageReducer";
 import { Dispatch } from "redux";
 import { profileAPI } from "../api/API";
-import { AxiosResponse } from "axios";
 
 export const ADD_POST = "ADD-POST";
-export const UPDATE_NEW_POST_INPUT = "UPDATE-NEW-POST-INPUT";
 
 const initialState = {
   initialPostsState: [
@@ -15,8 +13,8 @@ const initialState = {
     { id: v1(), post: "Bye", likes: 23 },
     { id: v1(), post: "Aloha", likes: 13 },
   ] as Array<PostsDataType>,
-  postMessage: "",
   profile: null,
+  status: "",
 };
 
 export type UserProfileType = {
@@ -46,22 +44,18 @@ export const profilePageReducer = (
     case ADD_POST:
       const newPost: PostsDataType = {
         id: v1(),
-        post: state.postMessage,
+        post: action.payload.newPostText,
         likes: 0,
       };
       return {
         ...state,
         initialPostsState: [...state.initialPostsState, newPost],
-        postMessage: "",
       };
-    case UPDATE_NEW_POST_INPUT:
-      state.postMessage = action.payload.newPostMessage;
-      return { ...state, postMessage: action.payload.newPostMessage };
     case "SET-USER-PROFILE": {
-      debugger;
       return { ...state, profile: action.payload.profile };
     }
-
+    case "SET-STATUS":
+      return { ...state, status: action.payload.newStatus };
     default:
       return state;
   }
@@ -69,29 +63,23 @@ export const profilePageReducer = (
 type InitialStateType = typeof initialState;
 export type ProfilePageActionTypes =
   | AddPostActionType
-  | UpdateNewPostInputActionType
-  | setUserProfileActionType;
+  | setUserProfileActionType
+  | SetStatusActionType;
 
 type AddPostActionType = ReturnType<typeof addPostAC>;
-type UpdateNewPostInputActionType = ReturnType<typeof updateNewPostInputAC>;
 type setUserProfileActionType = ReturnType<typeof setUserProfile>;
+type SetStatusActionType = ReturnType<typeof setStatus>;
 
-export const addPostAC = () => {
+export const addPostAC = (newPostText: string) => {
   return {
     type: "ADD-POST",
-  } as const;
-};
-export const updateNewPostInputAC = (newPostMessage: string) => {
-  return {
-    type: "UPDATE-NEW-POST-INPUT",
     payload: {
-      newPostMessage,
+      newPostText,
     },
   } as const;
 };
 
 export const setUserProfile = (profile: any) => {
-  debugger;
   return {
     type: "SET-USER-PROFILE",
     payload: {
@@ -99,13 +87,35 @@ export const setUserProfile = (profile: any) => {
     },
   } as const;
 };
+export const setStatus = (newStatus: string) => {
+  return {
+    type: "SET-STATUS",
+    payload: {
+      newStatus,
+    },
+  } as const;
+};
 
 export const getUserProfile = (userId: number) => {
-  debugger;
   return (dispatch: Dispatch) => {
-    debugger;
     profileAPI.getProfile(userId).then((response) => {
       dispatch(setUserProfile(response.data));
+    });
+  };
+};
+export const getStatus = (userId: number) => {
+  return (dispatch: Dispatch) => {
+    profileAPI.getStatus(userId).then((response) => {
+      dispatch(setStatus(response.data));
+    });
+  };
+};
+export const updateStatus = (newStatus: string) => {
+  return (dispatch: Dispatch) => {
+    profileAPI.updateStatus(newStatus).then((response) => {
+      if (response.data.resultCode === 0) {
+        dispatch(setStatus(newStatus));
+      }
     });
   };
 };

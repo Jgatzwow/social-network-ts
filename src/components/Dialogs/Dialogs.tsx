@@ -5,19 +5,15 @@ import { Messages } from "./messages/Messages";
 
 import { Outlet } from "react-router-dom";
 import { DialogsPropsType } from "./DialogsContainer";
+import { ReduxDialogsForm } from "./DialogsForm";
 
 const Dialogs = (props: DialogsPropsType) => {
-  const { dialogsPage, onNewMessageInputChange, onAddMessage } = props;
+  const { dialogsPage, onAddMessage } = props;
 
-  const dialogsInputRef = useRef<HTMLInputElement>(null);
+  const onAddMessageHandler = (values: any) => {
+    onAddMessage(values.newMessage);
+  };
 
-  const onAddMessageHandler = () => {
-    onAddMessage();
-  };
-  const onNewMessageInputChangeHandler = () => {
-    let newText = dialogsInputRef.current ? dialogsInputRef.current.value : "";
-    onNewMessageInputChange(newText);
-  };
   return (
     <div className={styles.dialogs}>
       <div className={styles.dialogs__items}>
@@ -30,14 +26,7 @@ const Dialogs = (props: DialogsPropsType) => {
           return <Messages key={m.id} message={m.message} />;
         })}
       </div>
-      <div>
-        <input
-          onChange={onNewMessageInputChangeHandler}
-          ref={dialogsInputRef}
-          value={dialogsPage.dialogsMessage}
-        />
-        <button onClick={onAddMessageHandler}>Add Message</button>
-      </div>
+      <ReduxDialogsForm onSubmit={onAddMessageHandler} />
       <Outlet />
     </div>
   );

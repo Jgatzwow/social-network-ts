@@ -152,7 +152,6 @@ export const getUsers = (currentPage: number, pageSize: number) => {
   return (dispatch: Dispatch) => {
     dispatch(setFetching(true));
     usersAPI.getUsers(currentPage, pageSize).then((data) => {
-      debugger;
       dispatch(setFetching(false));
       dispatch(setUsers(data.items));
     });

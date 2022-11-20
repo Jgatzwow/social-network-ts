@@ -3,9 +3,12 @@ import styles from "./ProfileInfo.module.css";
 import profilePic from "../../../images/149071.png";
 import { Preloader } from "../../Common/Preloader/Preloader";
 import { UserProfileType } from "../../../redux/ProfilePageReducer";
+import { ProfileStatus } from "./profileStatus/ProfileStatus";
 
 type PropsType = {
   profile: UserProfileType | null;
+  status: string;
+  updateStatus: (newStatus: string) => void;
 };
 
 export const ProfileInfo = (props: PropsType) => {
@@ -16,7 +19,6 @@ export const ProfileInfo = (props: PropsType) => {
     fullName,
     lookingForAJobDescription,
     lookingForAJob,
-    userId,
     contacts,
   } = props.profile;
   return (
@@ -32,6 +34,10 @@ export const ProfileInfo = (props: PropsType) => {
           <img src={photos.small || profilePic} alt="ProfilePic" />
         </div>
         <div>
+          <ProfileStatus
+            status={props.status}
+            updateStatus={props.updateStatus}
+          />
           <h2>{fullName}</h2>
           <p>{aboutMe}</p>
           <p>lookingForAJob{lookingForAJob}</p>
