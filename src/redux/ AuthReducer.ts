@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { authAPI } from "../api/API";
 import { AxiosResponse } from "axios";
+import { stopSubmit } from "redux-form";
 
 const initialState = {
   userId: null,
@@ -77,6 +78,16 @@ export const login = (email: string, password: string, rememberMe: boolean) => {
       .then((response: AxiosResponse) => {
         if (response.data.resultCode === 0) {
           dispatch(getAuthUserData());
+        } else {
+          let message =
+            response.data.messages.length > 0
+              ? response.data.messages[0]
+              : "some error";
+          dispatch(
+            stopSubmit("login", {
+              _error: message,
+            })
+          );
         }
       });
   };

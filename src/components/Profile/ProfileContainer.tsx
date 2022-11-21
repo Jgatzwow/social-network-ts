@@ -15,6 +15,8 @@ import { compose } from "redux";
 type MapStateToPropsType = {
   profile: UserProfileType | null;
   status: string;
+  userId: number | null;
+  isAuth: boolean;
 };
 type MapDispatchToPropsType = {
   getUserProfile: (userId: number) => void;
@@ -27,6 +29,8 @@ const mapStateToProps = (state: StateType): MapStateToPropsType => {
   return {
     profile: state.profilePage.profile,
     status: state.profilePage.status,
+    userId: state.auth.userId,
+    isAuth: state.auth.isAuth,
   };
 };
 
@@ -35,7 +39,7 @@ class ProfileContainer extends React.Component<UsersProfilePropsType> {
     // @ts-ignore
     let userId = this.props.match;
     if (!userId) {
-      userId = 26179;
+      userId = this.props.userId;
     }
     this.props.getUserProfile(userId);
     this.props.getStatus(userId);
