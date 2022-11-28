@@ -4,15 +4,23 @@ import { Preloader } from "../Common/Preloader/Preloader";
 import { connect } from "react-redux";
 import {
   followUser,
-  getUsers,
   setCurrentPage,
   toggleFollowing,
   unfollowUser,
+  getUsers,
   UserType,
 } from "../../redux/UsersPageReducer";
 import { StateType } from "../../redux/ReduxStore";
 import { compose } from "redux";
 import { withAuthRedirectComponent } from "../HOCs/redirectHoc/withAuthRedirectComponent";
+import {
+  getCurrentPage,
+  getFollowingProgress,
+  getIsFetching,
+  getPageSize,
+  getTotalUsersCount,
+  getUsersForMapState,
+} from "../../redux/selectors/user-selectors";
 
 type MapStateToPropsType = {
   users: UserType[];
@@ -32,12 +40,12 @@ export type UsersContainerPropsType = MapStateToPropsType &
   MapDispatchToPropsType;
 const mapStateToProps = (state: StateType): MapStateToPropsType => {
   return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    isFetching: state.usersPage.isFetching,
-    followingInProgress: state.usersPage.followingInProgress,
+    users: getUsersForMapState(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingProgress(state),
   };
 };
 

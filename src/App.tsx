@@ -10,37 +10,59 @@ import Login from "./components/Login/Login";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
+import { connect } from "react-redux";
+import { initializeApp } from "./redux/AppReducer";
+import { Preloader } from "./components/Common/Preloader/Preloader";
 
-type PropsType = {
+type MapStateToPropsType = {
   appState: StateType;
+  initialized: boolean;
+};
+type MapDispatchToPropsType = {
+  initializeApp: () => void;
+};
+type AppPropsType = MapStateToPropsType & MapDispatchToPropsType;
+
+const mapStateToProps = (state: StateType) => {
+  return {
+    appState: state,
+    initialized: state.app.initialized,
+  };
 };
 
-const App = (props: PropsType) => {
-  const { appState } = props;
-  return (
-    <BrowserRouter>
-      <div className="app__wrapper">
-        <HeaderContainer />
-        <NavBar sideBar={appState.sidebar} />
-        <div className="content">
-          <Routes>
-            <Route path={"/Profile"} element={<ProfileContainer />} />
-            <Route path={"/Profile/:userId"} element={<ProfileContainer />} />
-            <Route path={"/Users"} element={<UsersContainer />} />
-            <Route path={"/Login"} element={<Login />} />
-            <Route path={"/Dialogs"} element={<DialogsContainer />}>
-              {/*<Route path={'*'} element={<h1>Michael Page Not Found</h1>}/>*/}
-              <Route
-                path={":id"}
-                element={<SideBar friendsData={appState.sidebar} />}
-              />
-            </Route>
-          </Routes>
+class App extends React.Component<AppPropsType> {
+  componentDidMount() {
+    this.props.initializeApp();
+  }
+
+  render() {
+    if (!this.props.initialized) return <Preloader />;
+    const { appState } = this.props;
+    return (
+      <BrowserRouter>
+        <div className="app__wrapper">
+          <HeaderContainer />
+          <NavBar sideBar={appState.sidebar} />
+          <div className="content">
+            <Routes>
+              <Route path={"/Profile"} element={<ProfileContainer />} />
+              <Route path={"/Profile/:userId"} element={<ProfileContainer />} />
+              <Route path={"/Users"} element={<UsersContainer />} />
+              <Route path={"/Login"} element={<Login />} />
+              <Route path={"/Dialogs"} element={<DialogsContainer />}>
+                {/*<Route path={'*'} element={<h1>Michael Page Not Found</h1>}/>*/}
+                <Route
+                  path={":id"}
+                  element={<SideBar friendsData={appState.sidebar} />}
+                />
+              </Route>
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </BrowserRouter>
-  );
-};
+      </BrowserRouter>
+    );
+  }
+}
 
-export default App;
+export default connect(mapStateToProps, { initializeApp })(App);

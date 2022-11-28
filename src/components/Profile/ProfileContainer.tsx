@@ -19,11 +19,17 @@ type MapStateToPropsType = {
   isAuth: boolean;
 };
 type MapDispatchToPropsType = {
-  getUserProfile: (userId: number) => void;
-  getStatus: (userId: number) => void;
+  getUserProfile: (userId: number | null) => void;
+  getStatus: (userId: number | null) => void;
   updateStatus: (newStatus: string) => void;
 };
-export type UsersProfilePropsType = MapStateToPropsType &
+
+type OwnPropsType = {
+  match: number | null;
+};
+
+export type UsersProfilePropsType = OwnPropsType &
+  MapStateToPropsType &
   MapDispatchToPropsType;
 const mapStateToProps = (state: StateType): MapStateToPropsType => {
   return {
@@ -36,7 +42,6 @@ const mapStateToProps = (state: StateType): MapStateToPropsType => {
 
 class ProfileContainer extends React.Component<UsersProfilePropsType> {
   componentDidMount() {
-    // @ts-ignore
     let userId = this.props.match;
     if (!userId) {
       userId = this.props.userId;

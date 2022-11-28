@@ -56,7 +56,7 @@ export const setAuthUserData = (
 
 export const getAuthUserData = () => {
   return (dispatch: Dispatch) => {
-    authAPI.me().then((response: AxiosResponse) => {
+    return authAPI.me().then((response: AxiosResponse) => {
       if (response.data.resultCode === 0) {
         dispatch(
           setAuthUserData(
