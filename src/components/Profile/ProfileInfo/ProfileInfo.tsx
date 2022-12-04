@@ -4,6 +4,7 @@ import profilePic from "../../../images/149071.png";
 import { Preloader } from "../../Common/Preloader/Preloader";
 import { UserProfileType } from "../../../redux/ProfilePageReducer";
 import { ProfileStatus } from "./profileStatus/ProfileStatus";
+import { ProfileStatusWithHooks } from "./profileStatus/ProfileStatusWithHooks";
 
 type PropsType = {
   profile: UserProfileType | null;
@@ -34,10 +35,14 @@ export const ProfileInfo = (props: PropsType) => {
           <img src={photos.small || profilePic} alt="ProfilePic" />
         </div>
         <div>
-          <ProfileStatus
+          <ProfileStatusWithHooks
             status={props.status}
             updateStatus={props.updateStatus}
           />
+          {/*<ProfileStatus
+            status={props.status}
+            updateStatus={props.updateStatus}
+          />*/}
           <h2>{fullName}</h2>
           <p>{aboutMe}</p>
           <p>lookingForAJob{lookingForAJob}</p>
