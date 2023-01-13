@@ -108,26 +108,32 @@ export const setStatus = (newStatus: string) => {
   } as const;
 };
 
-export const getUserProfile = (userId: number) => {
-  return (dispatch: Dispatch) => {
-    profileAPI.getProfile(userId).then((response) => {
-      dispatch(setUserProfile(response.data));
-    });
-  };
+export const getUserProfile = (userId: number) => async (dispatch: Dispatch) => {
+  try {
+    const response = await profileAPI.getProfile(userId)
+    dispatch(setUserProfile(response.data));
+  } catch (e) {
+    console.warn(e)
+  }
+
 };
-export const getStatus = (userId: number) => {
-  return (dispatch: Dispatch) => {
-    profileAPI.getStatus(userId).then((response) => {
-      dispatch(setStatus(response.data));
-    });
-  };
+export const getStatus = (userId: number) => async (dispatch: Dispatch) => {
+  try {
+    const response = await profileAPI.getStatus(userId)
+    dispatch(setStatus(response.data));
+  } catch (e) {
+    console.warn(e)
+  }
+
 };
-export const updateStatus = (newStatus: string) => {
-  return (dispatch: Dispatch) => {
-    profileAPI.updateStatus(newStatus).then((response) => {
-      if (response.data.resultCode === 0) {
-        dispatch(setStatus(newStatus));
-      }
-    });
-  };
+export const updateStatus = (newStatus: string) => async (dispatch: Dispatch) => {
+  try {
+    const response = await profileAPI.updateStatus(newStatus)
+    if (response.data.resultCode === 0) {
+      dispatch(setStatus(newStatus));
+    }
+  } catch (e) {
+    console.warn(e)
+  }
+
 };

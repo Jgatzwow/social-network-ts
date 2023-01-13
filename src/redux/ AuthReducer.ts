@@ -1,7 +1,7 @@
-import { Dispatch } from "redux";
-import { authAPI } from "../api/API";
-import { AxiosResponse } from "axios";
-import { stopSubmit } from "redux-form";
+import {Dispatch} from 'redux';
+import {authAPI} from '../api/API';
+import {AxiosResponse} from 'axios';
+import {stopSubmit} from 'redux-form';
 
 const initialState = {
   userId: null,
@@ -22,7 +22,7 @@ export const authReducer = (
   action: AuthActionsType
 ): InitialStateType => {
   switch (action.type) {
-    case "SET-AUTH-USER-DATA": {
+    case 'auth/SET-AUTH-USER-DATA': {
       return {
         ...state,
         ...action.payload,
@@ -44,7 +44,7 @@ export const setAuthUserData = (
   isAuth: boolean
 ) => {
   return {
-    type: "SET-AUTH-USER-DATA",
+    type: 'auth/SET-AUTH-USER-DATA',
     payload: {
       userId,
       email,
@@ -54,9 +54,9 @@ export const setAuthUserData = (
   } as const;
 };
 
-export const getAuthUserData = () => {
-  return (dispatch: Dispatch) => {
-    return authAPI.me().then((response: AxiosResponse) => {
+export const getAuthUserData = () => async (dispatch: Dispatch) => {
+    try {
+      const response: AxiosResponse = await authAPI.me()
       if (response.data.resultCode === 0) {
         dispatch(
           setAuthUserData(
@@ -67,37 +67,42 @@ export const getAuthUserData = () => {
           )
         );
       }
-    });
-  };
-};
+    } catch (e) {
+      console.warn(e)
+    }
 
-export const login = (email: string, password: string, rememberMe: boolean) => {
-  return (dispatch: any) => {
-    authAPI
-      .login(email, password, rememberMe)
-      .then((response: AxiosResponse) => {
-        if (response.data.resultCode === 0) {
-          dispatch(getAuthUserData());
-        } else {
-          let message =
-            response.data.messages.length > 0
-              ? response.data.messages[0]
-              : "some error";
-          dispatch(
-            stopSubmit("login", {
-              _error: message,
-            })
-          );
-        }
-      });
-  };
+  }
+;
+
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: any) => {
+  try {
+    const response: AxiosResponse = await authAPI.login(email, password, rememberMe)
+    if (response.data.resultCode === 0) {
+      dispatch(getAuthUserData());
+    } else {
+      let message =
+        response.data.messages.length > 0
+          ? response.data.messages[0]
+          : 'some error';
+      dispatch(
+        stopSubmit('login', {
+          _error: message,
+        })
+      );
+    }
+  } catch (e) {
+    console.warn(e)
+  }
+
 };
-export const logout = () => {
-  return (dispatch: Dispatch) => {
-    authAPI.logout().then((response: AxiosResponse) => {
-      if (response.data.resultCode === 0) {
-        dispatch(setAuthUserData(null, null, null, false));
-      }
-    });
-  };
+export const logout = () => async (dispatch: Dispatch) => {
+  try {
+    const response = await authAPI.logout()
+    if (response.data.resultCode === 0) {
+      dispatch(setAuthUserData(null, null, null, false));
+    }
+  } catch (e) {
+    console.warn(e)
+  }
+
 };

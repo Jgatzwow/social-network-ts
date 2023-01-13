@@ -1,7 +1,7 @@
-import React from "react";
-import { Users } from "./Users";
-import { Preloader } from "../Common/Preloader/Preloader";
-import { connect } from "react-redux";
+import React from 'react';
+import {Users} from './Users';
+import {Preloader} from '../Common/Preloader/Preloader';
+import {connect} from 'react-redux';
 import {
   followUser,
   setCurrentPage,
@@ -9,10 +9,10 @@ import {
   unfollowUser,
   getUsers,
   UserType,
-} from "../../redux/UsersPageReducer";
-import { StateType } from "../../redux/ReduxStore";
-import { compose } from "redux";
-import { withAuthRedirectComponent } from "../HOCs/redirectHoc/withAuthRedirectComponent";
+} from '../../redux/UsersPageReducer';
+import {StateType} from '../../redux/ReduxStore';
+import {compose} from 'redux';
+import {withAuthRedirectComponent} from '../HOCs/redirectHoc/withAuthRedirectComponent';
 import {
   getCurrentPage,
   getFollowingProgress,
@@ -20,7 +20,7 @@ import {
   getPageSize,
   getTotalUsersCount,
   getUsersForMapState,
-} from "../../redux/selectors/user-selectors";
+} from '../../redux/selectors/user-selectors';
 
 type MapStateToPropsType = {
   users: UserType[];
@@ -38,6 +38,7 @@ type MapDispatchToPropsType = {
 };
 export type UsersContainerPropsType = MapStateToPropsType &
   MapDispatchToPropsType;
+
 const mapStateToProps = (state: StateType): MapStateToPropsType => {
   return {
     users: getUsersForMapState(state),
@@ -51,16 +52,18 @@ const mapStateToProps = (state: StateType): MapStateToPropsType => {
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
   componentDidMount() {
-    this.props.getUsers(this.props.currentPage, this.props.pageSize);
+    const {currentPage, pageSize} = this.props
+    this.props.getUsers(currentPage, pageSize);
   }
 
   onPageChangeHandler = (p: number) => {
-    this.props.getUsers(p, this.props.pageSize);
+    const {pageSize} = this.props
+    this.props.getUsers(p, pageSize);
     this.props.setCurrentPage(p);
   };
 
   render() {
-    if (this.props.isFetching) return <Preloader />;
+    if (this.props.isFetching) return <Preloader/>;
     return (
       <Users
         totalUsersCount={this.props.totalUsersCount}

@@ -12,7 +12,7 @@ type PropsType = {
 };
 
 export const ProfileInfo = (props: PropsType) => {
-  if (!props.profile) return <Preloader />;
+  if (!props.profile) return <Preloader/>
   const {
     photos,
     aboutMe,
@@ -21,6 +21,7 @@ export const ProfileInfo = (props: PropsType) => {
     lookingForAJob,
     contacts,
   } = props.profile;
+
   return (
     <div>
       <div className={styles.profile__bg}>
@@ -31,7 +32,7 @@ export const ProfileInfo = (props: PropsType) => {
       </div>
       <div className={styles.ava__description_wrapper}>
         <div className={styles.profile__pic}>
-          <img src={photos.small || profilePic} alt="ProfilePic" />
+          <img src={photos.small || profilePic} alt="ProfilePic"/>
         </div>
         <div>
           <ProfileStatusWithHooks
