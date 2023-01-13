@@ -1,5 +1,4 @@
-import { Dispatch } from "redux";
-import { getAuthUserData } from "./ AuthReducer";
+import {getAuthUserData} from './ AuthReducer';
 
 const initialState = {
   initialized: false,
@@ -14,7 +13,7 @@ export const appReducer = (
   action: AuthActionsType
 ): InitialStateType => {
   switch (action.type) {
-    case "SET-INITIALIZED": {
+    case "app/SET-INITIALIZED": {
       return {
         ...state,
         initialized: true,
@@ -31,7 +30,7 @@ type initializeSuccessACType = ReturnType<typeof initializeSuccess>;
 
 export const initializeSuccess = () => {
   return {
-    type: "SET-INITIALIZED",
+    type: "app/SET-INITIALIZED",
   } as const;
 };
 

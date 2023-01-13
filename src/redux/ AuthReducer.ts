@@ -2,6 +2,7 @@ import {Dispatch} from 'redux';
 import {authAPI} from '../api/API';
 import {AxiosResponse} from 'axios';
 import {stopSubmit} from 'redux-form';
+import {AppDispatch} from './ReduxStore';
 
 const initialState = {
   userId: null,
@@ -74,7 +75,7 @@ export const getAuthUserData = () => async (dispatch: Dispatch) => {
   }
 ;
 
-export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: any) => {
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: AppDispatch) => {
   try {
     const response: AxiosResponse = await authAPI.login(email, password, rememberMe)
     if (response.data.resultCode === 0) {

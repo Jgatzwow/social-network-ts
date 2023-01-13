@@ -4,7 +4,6 @@ import {PhotosType} from './UsersPageReducer';
 import {Dispatch} from 'redux';
 import {profileAPI} from '../api/API';
 
-export const ADD_POST = 'ADD-POST';
 
 const initialState = {
   initialPostsState: [
@@ -41,7 +40,7 @@ export const profilePageReducer = (
   action: ProfilePageActionTypes
 ): InitialStateType => {
   switch (action.type) {
-    case ADD_POST:
+    case 'profile/ADD-POST':
       const newPost: PostsDataType = {
         id: v1(),
         post: action.payload.newPostText,
@@ -51,12 +50,12 @@ export const profilePageReducer = (
         ...state,
         initialPostsState: [...state.initialPostsState, newPost],
       };
-    case 'SET-USER-PROFILE': {
+    case 'profile/SET-USER-PROFILE': {
       return {...state, profile: action.payload.profile};
     }
-    case 'SET-STATUS':
+    case 'profile/SET-STATUS':
       return {...state, status: action.payload.newStatus};
-    case 'DELETE-POST':
+    case 'profile/DELETE-POST':
       return {...state, initialPostsState: state.initialPostsState.filter(p => p.id !== action.payload.postId)}
     default:
       return state;
@@ -76,7 +75,7 @@ type deletePostActionType = ReturnType<typeof deletePostAC>;
 
 export const addPostAC = (newPostText: string) => {
   return {
-    type: 'ADD-POST',
+    type: 'profile/ADD-POST',
     payload: {
       newPostText,
     },
@@ -84,7 +83,7 @@ export const addPostAC = (newPostText: string) => {
 };
 export const deletePostAC = (postId: string) => {
   return {
-    type: 'DELETE-POST',
+    type: 'profile/DELETE-POST',
     payload: {
       postId,
     },
@@ -93,7 +92,7 @@ export const deletePostAC = (postId: string) => {
 
 export const setUserProfile = (profile: any) => {
   return {
-    type: 'SET-USER-PROFILE',
+    type: 'profile/SET-USER-PROFILE',
     payload: {
       profile,
     },
@@ -101,7 +100,7 @@ export const setUserProfile = (profile: any) => {
 };
 export const setStatus = (newStatus: string) => {
   return {
-    type: 'SET-STATUS',
+    type: 'profile/SET-STATUS',
     payload: {
       newStatus,
     },
