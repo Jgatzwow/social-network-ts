@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import styles from './ProfileInfo.module.css';
 import profilePic from '../../../images/149071.png';
 import {Preloader} from '../../Common/Preloader/Preloader';
@@ -9,6 +9,8 @@ type PropsType = {
   profile: UserProfileType | null;
   status: string;
   updateStatus: (newStatus: string) => void;
+  updatePhoto: (newPhoto: File) => void;
+  isOwner: boolean
 };
 
 export const ProfileInfo = (props: PropsType) => {
@@ -22,6 +24,11 @@ export const ProfileInfo = (props: PropsType) => {
     contacts,
   } = props.profile;
 
+  const onChangeProfilePickHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target?.files?.length) {
+      props.updatePhoto(e.target.files[0])
+    }
+  }
   return (
     <div>
       <div className={styles.profile__bg}>
@@ -33,6 +40,7 @@ export const ProfileInfo = (props: PropsType) => {
       <div className={styles.ava__description_wrapper}>
         <div className={styles.profile__pic}>
           <img src={photos.small || profilePic} alt="ProfilePic"/>
+          {props.isOwner && <input onChange={onChangeProfilePickHandler} type="file"/>}
         </div>
         <div>
           <ProfileStatusWithHooks

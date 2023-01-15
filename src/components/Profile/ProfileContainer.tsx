@@ -1,16 +1,16 @@
-import React from "react";
-import { Profile } from "./Profile";
-import { connect } from "react-redux";
+import React from 'react';
+import {Profile} from './Profile';
+import {connect} from 'react-redux';
 import {
   getStatus,
-  getUserProfile,
+  getUserProfile, updatePhoto,
   updateStatus,
   UserProfileType,
-} from "../../redux/ProfilePageReducer";
-import { StateType } from "../../redux/ReduxStore";
-import { withAuthRedirectComponent } from "../HOCs/redirectHoc/withAuthRedirectComponent";
-import { withURLDataComponent } from "../HOCs/withURLdataHoc/withURLDataComponent";
-import { compose } from "redux";
+} from '../../redux/ProfilePageReducer';
+import {StateType} from '../../redux/ReduxStore';
+import {withAuthRedirectComponent} from '../HOCs/redirectHoc/withAuthRedirectComponent';
+import {withURLDataComponent} from '../HOCs/withURLdataHoc/withURLDataComponent';
+import {compose} from 'redux';
 
 type MapStateToPropsType = {
   profile: UserProfileType | null;
@@ -22,6 +22,7 @@ type MapDispatchToPropsType = {
   getUserProfile: (userId: number | null) => void;
   getStatus: (userId: number | null) => void;
   updateStatus: (newStatus: string) => void;
+  updatePhoto: (newPhoto: File) => void;
 };
 
 type OwnPropsType = {
@@ -41,7 +42,7 @@ const mapStateToProps = (state: StateType): MapStateToPropsType => {
 };
 
 class ProfileContainer extends React.Component<UsersProfilePropsType> {
-  componentDidMount() {
+  refreshProfile() {
     let userId = this.props.match;
     if (!userId) {
       userId = this.props.userId;
@@ -50,20 +51,33 @@ class ProfileContainer extends React.Component<UsersProfilePropsType> {
     this.props.getStatus(userId);
   }
 
+  componentDidMount() {
+    this.refreshProfile()
+  }
+
+  componentDidUpdate(prevProps: Readonly<UsersProfilePropsType>, prevState: Readonly<{}>, snapshot?: any) {
+    if (this.props.match !== prevProps.match){
+      this.refreshProfile()
+    }
+  }
+
+
   render() {
     return (
       <Profile
         {...this.props}
+        isOwner={!!this.props.userId}
         profile={this.props.profile}
         status={this.props.status}
         updateStatus={this.props.updateStatus}
+        updatePhoto={this.props.updatePhoto}
       />
     );
   }
 }
 
 export default compose<React.ComponentType>(
-  connect(mapStateToProps, { getUserProfile, getStatus, updateStatus }),
+  connect(mapStateToProps, {getUserProfile, getStatus, updateStatus, updatePhoto}),
   withURLDataComponent,
   withAuthRedirectComponent
 )(ProfileContainer);

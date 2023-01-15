@@ -57,6 +57,9 @@ export const profilePageReducer = (
       return {...state, status: action.payload.newStatus};
     case 'profile/DELETE-POST':
       return {...state, initialPostsState: state.initialPostsState.filter(p => p.id !== action.payload.postId)}
+    case 'profile/SET-PHOTO':
+      // @ts-ignore
+      return {...state,profile: {...state.profile, photos: action.payload.photos}}
     default:
       return state;
   }
@@ -66,12 +69,14 @@ export type ProfilePageActionTypes =
   | AddPostActionType
   | setUserProfileActionType
   | SetStatusActionType
-  | deletePostActionType;
+  | deletePostActionType
+  | setPhotoActionType;
 
 type AddPostActionType = ReturnType<typeof addPostAC>;
 type setUserProfileActionType = ReturnType<typeof setUserProfile>;
 type SetStatusActionType = ReturnType<typeof setStatus>;
 type deletePostActionType = ReturnType<typeof deletePostAC>;
+type setPhotoActionType = ReturnType<typeof setPhoto>;
 
 export const addPostAC = (newPostText: string) => {
   return {
@@ -106,7 +111,14 @@ export const setStatus = (newStatus: string) => {
     },
   } as const;
 };
-
+export const setPhoto = (photos: any) => {
+  return {
+    type: 'profile/SET-PHOTO',
+    payload: {
+      photos,
+    },
+  } as const;
+};
 export const getUserProfile = (userId: number) => async (dispatch: Dispatch) => {
   try {
     const response = await profileAPI.getProfile(userId)
@@ -130,6 +142,17 @@ export const updateStatus = (newStatus: string) => async (dispatch: Dispatch) =>
     const response = await profileAPI.updateStatus(newStatus)
     if (response.data.resultCode === 0) {
       dispatch(setStatus(newStatus));
+    }
+  } catch (e) {
+    console.warn(e)
+  }
+
+};
+export const updatePhoto = (newPhoto: File) => async (dispatch: Dispatch) => {
+  try {
+  const response = await profileAPI.updatePhoto(newPhoto)
+    if (response.data.resultCode === 0) {
+      dispatch(setPhoto(response.data.data.photos))
     }
   } catch (e) {
     console.warn(e)

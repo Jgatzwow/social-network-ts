@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './paginator.module.css';
 
 
@@ -15,20 +15,31 @@ export const Paginator = (props: PropsType) => {
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
   }
+  const portionSize = 10
+  let portionCount = Math.ceil(pagesCount / portionSize);
+  let [portionNumber, setPortionNumber] = useState(1);
+  let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
+  let rightPortionPageNumber = portionNumber * portionSize;
 
   return (
     <div>
-      {pages.map((p, idx) => {
-        return (
-          <span
-            key={idx}
-            onClick={() => props.onPageChangeHandler(p)}
-            className={props.currentPage === p ? styles.selected__page : ''}
-          >
+      Prev{ portionNumber > 1 &&
+        <button className={styles.button_prev} onClick={() => {setPortionNumber(portionNumber-1)}}>Prev</button>}
+      {pages
+        .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+        .map((p, idx) => {
+          return (
+            <span
+              key={idx}
+              onClick={() => props.onPageChangeHandler(p)}
+              className={props.currentPage === p ? styles.selected__page : ''}
+            >
               {p}
             </span>
-        );
-      })}
+          );
+        })}
+      { portionCount > portionNumber &&
+          <button className={styles.button_next} onClick={() => { setPortionNumber(portionNumber + 1)} }>Next</button>}
     </div>
   );
 };

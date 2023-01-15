@@ -24,8 +24,8 @@ export type PhotosType = {
 };
 const initialState = {
   users: [],
-  pageSize: 5,
-  totalUsersCount: 20,
+  pageSize: 10,
+  totalUsersCount: 0,
   currentPage: 2,
   isFetching: false,
   followingInProgress: [],
@@ -159,7 +159,9 @@ export const getUsers = (currentPage: number, pageSize: number) => async (dispat
   try {
     const data = await usersAPI.getUsers(currentPage, pageSize)
     dispatch(setFetching(false));
+
     dispatch(setUsers(data.items));
+    dispatch(setTotalUsersCount(data.totalCount))
   } catch (e) {
     console.warn(e)
   }
