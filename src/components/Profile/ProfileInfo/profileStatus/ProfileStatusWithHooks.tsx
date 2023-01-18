@@ -31,6 +31,7 @@ export const ProfileStatusWithHooks: React.FC<PropsType> = ({
 
   return (
     <div>
+      <h2>What is on your mind?</h2>
       {!editMode ? (
         <div>
           <span onDoubleClick={activateEditMode}>

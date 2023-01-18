@@ -3,7 +3,7 @@ import {Profile} from './Profile';
 import {connect} from 'react-redux';
 import {
   getStatus,
-  getUserProfile, updatePhoto,
+  getUserProfile, updatePhoto, updateProfile,
   updateStatus,
   UserProfileType,
 } from '../../redux/ProfilePageReducer';
@@ -11,6 +11,7 @@ import {StateType} from '../../redux/ReduxStore';
 import {withAuthRedirectComponent} from '../HOCs/redirectHoc/withAuthRedirectComponent';
 import {withURLDataComponent} from '../HOCs/withURLdataHoc/withURLDataComponent';
 import {compose} from 'redux';
+import {FormDataType} from './profileDataForm/profileDataForm';
 
 type MapStateToPropsType = {
   profile: UserProfileType | null;
@@ -23,6 +24,7 @@ type MapDispatchToPropsType = {
   getStatus: (userId: number | null) => void;
   updateStatus: (newStatus: string) => void;
   updatePhoto: (newPhoto: File) => void;
+  updateProfile: (data: FormDataType) => void;
 };
 
 type OwnPropsType = {
@@ -56,7 +58,7 @@ class ProfileContainer extends React.Component<UsersProfilePropsType> {
   }
 
   componentDidUpdate(prevProps: Readonly<UsersProfilePropsType>, prevState: Readonly<{}>, snapshot?: any) {
-    if (this.props.match !== prevProps.match){
+    if (this.props.match !== prevProps.match) {
       this.refreshProfile()
     }
   }
@@ -66,7 +68,8 @@ class ProfileContainer extends React.Component<UsersProfilePropsType> {
     return (
       <Profile
         {...this.props}
-        isOwner={!!this.props.userId}
+        updateProfile={this.props.updateProfile}
+        isOwner={this.props.userId === Number(this.props.match)}
         profile={this.props.profile}
         status={this.props.status}
         updateStatus={this.props.updateStatus}
@@ -77,7 +80,7 @@ class ProfileContainer extends React.Component<UsersProfilePropsType> {
 }
 
 export default compose<React.ComponentType>(
-  connect(mapStateToProps, {getUserProfile, getStatus, updateStatus, updatePhoto}),
+  connect(mapStateToProps, {getUserProfile, getStatus, updateStatus, updatePhoto, updateProfile}),
   withURLDataComponent,
   withAuthRedirectComponent
 )(ProfileContainer);

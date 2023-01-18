@@ -1,34 +1,35 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import styles from './ProfileInfo.module.css';
 import profilePic from '../../../images/149071.png';
 import {Preloader} from '../../Common/Preloader/Preloader';
 import {UserProfileType} from '../../../redux/ProfilePageReducer';
 import {ProfileStatusWithHooks} from './profileStatus/ProfileStatusWithHooks';
+import ProfileDataForm, {FormDataType} from '../profileDataForm/profileDataForm';
+import {ProfileData} from './ProfileData';
 
 type PropsType = {
   profile: UserProfileType | null;
   status: string;
   updateStatus: (newStatus: string) => void;
   updatePhoto: (newPhoto: File) => void;
+  updateProfile: (data: FormDataType) => void;
   isOwner: boolean
 };
 
-export const ProfileInfo = (props: PropsType) => {
-  if (!props.profile) return <Preloader/>
-  const {
-    photos,
-    aboutMe,
-    fullName,
-    lookingForAJobDescription,
-    lookingForAJob,
-    contacts,
-  } = props.profile;
+export const ProfileInfo: React.FC<PropsType> = ({profile, isOwner, updatePhoto, updateStatus, status,updateProfile}) => {
+  const [editMode, setEditMode] = useState(false)
+
 
   const onChangeProfilePickHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target?.files?.length) {
-      props.updatePhoto(e.target.files[0])
+      updatePhoto(e.target.files[0])
     }
   }
+  const onSubmit =  (formData: FormDataType) => {
+    updateProfile(formData)
+    setEditMode(false)
+  }
+  if (!profile) return <Preloader/>
   return (
     <div>
       <div className={styles.profile__bg}>
@@ -39,25 +40,15 @@ export const ProfileInfo = (props: PropsType) => {
       </div>
       <div className={styles.ava__description_wrapper}>
         <div className={styles.profile__pic}>
-          <img src={photos.small || profilePic} alt="ProfilePic"/>
-          {props.isOwner && <input onChange={onChangeProfilePickHandler} type="file"/>}
+          <img src={profile.photos.small || profilePic} alt="ProfilePic"/>
+          {isOwner && <input onChange={onChangeProfilePickHandler} type="file"/>}
         </div>
-        <div>
-          <ProfileStatusWithHooks
-            status={props.status}
-            updateStatus={props.updateStatus}
-          />
-          <h2>{fullName}</h2>
-          <p>{aboutMe}</p>
-          <p>lookingForAJob{lookingForAJob}</p>
-          <p>Description: {lookingForAJobDescription}</p>
-          <div>Contacts:</div>
-          <p>{contacts.twitter}</p>
-          <p>{contacts.vk}</p>
-          <p>{contacts.github}</p>
-          <p>{contacts.youtube}</p>
-          <p>{contacts.instagram}</p>
-        </div>
+        {editMode ? <ProfileDataForm initialValues={profile} onSubmit={onSubmit} /> :
+          <ProfileData profile={profile} isOwner={isOwner} setEditMode={setEditMode}/>}
+        <ProfileStatusWithHooks
+          status={status}
+          updateStatus={updateStatus}
+        />
       </div>
     </div>
   );

@@ -1,8 +1,10 @@
 import {v1} from 'uuid';
-import {PostsDataType} from './ReduxStore';
+import {PostsDataType, StateType} from './ReduxStore';
 import {PhotosType} from './UsersPageReducer';
 import {Dispatch} from 'redux';
 import {profileAPI} from '../api/API';
+import {FormDataType} from '../components/Profile/profileDataForm/profileDataForm';
+import {stopSubmit} from 'redux-form';
 
 
 const initialState = {
@@ -153,6 +155,29 @@ export const updatePhoto = (newPhoto: File) => async (dispatch: Dispatch) => {
   const response = await profileAPI.updatePhoto(newPhoto)
     if (response.data.resultCode === 0) {
       dispatch(setPhoto(response.data.data.photos))
+    }
+  } catch (e) {
+    console.warn(e)
+  }
+
+};
+
+export const updateProfile = (profileData: FormDataType) => async (dispatch: any, getState: () => StateType) => {
+   const userId = getState().auth.userId as number
+  try {
+    const response = await profileAPI.updateProfile(profileData)
+    if (response.data.resultCode === 0) {
+      dispatch(getUserProfile(userId))
+    } else {
+      let message =
+        response.data.messages.length > 0
+          ? response.data.messages[0]
+          : 'some error';
+      dispatch(
+        stopSubmit('edit-profile', {
+          _error: message,
+        })
+      );
     }
   } catch (e) {
     console.warn(e)
